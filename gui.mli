@@ -1,5 +1,6 @@
 open Graphics
 open GMain
+open GMisc
 open Layer
 
 (* [to_matrix img] converts the input [img] to a matrix. The image
