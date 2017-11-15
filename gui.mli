@@ -23,7 +23,7 @@ val classify: unit -> unit
 val reset: unit -> unit
 
 (* [draw] allows the user to draw points or free-form lines on the
- * drawing canvas using a black, fixed-width drawing tool. *)
+ * drawing canvas using a white, fixed-width drawing tool. *)
 val draw: unit -> unit
 
 (* [main] makes the window and adds the graphical components to it.
