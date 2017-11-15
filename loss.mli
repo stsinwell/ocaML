@@ -16,4 +16,4 @@ val l1_loss: matrix matrix -> matrix
 
 (* [crossentropy m1 m2] performs the categorical cross-entropy of 
  * the given matrices. *)
-val crossentropy matrix matrix -> matrix
+val crossentropy: matrix matrix -> matrix
