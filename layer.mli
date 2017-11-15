@@ -22,7 +22,7 @@ type layer = matrix * actv
 (* [init rows cols actv] initalizes a new layer with
  * a row space of [rows], column space of [cols], and 
  * activation function [actv]. *)
-type init: int int actv -> layer
+type init: int -> int -> actv -> layer
 
 (* [row_space matrix] returns the number of dimensions of the row space. *)
 val row_space: matrix -> int
@@ -40,4 +40,4 @@ val perf_actv: layer -> matrix
 
 (* [valid_op layer layer] is true if performing a matrix multiplication
  *  on the two layers is possible. *)
-val valid_op: layer layer -> bool
+val valid_op: layer -> layer -> bool

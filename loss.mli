@@ -9,11 +9,11 @@
 type loss = | L2_loss | L1_loss | Categorical_crossentropy
 
 (* [l2_loss m1 m2] performs the L2_loss of the given matrices. *)
-val l2_loss: matrix matrix -> matrix
+val l2_loss: matrix -> matrix -> matrix
 
 (* [l1_loss m1 m2] performs the l1_loss of the given matrices. *)
-val l1_loss: matrix matrix -> matrix
+val l1_loss: matrix -> matrix -> matrix
 
 (* [crossentropy m1 m2] performs the categorical cross-entropy of 
  * the given matrices. *)
-val crossentropy: matrix matrix -> matrix
+val crossentropy: matrix -> matrix -> matrix
