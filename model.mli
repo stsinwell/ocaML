@@ -22,4 +22,4 @@ val propagate: model matrix -> matrix
 (* [backpropagate model m1 m2 loss] performs the backpropagation 
  * algorithm on [model], given the reference matrix [m1] and the
  * entire model's output matrix [m2]. *)
-val backpropagate model matrix matrix -> matrix
+val backpropagate: model matrix matrix -> matrix
