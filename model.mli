@@ -23,3 +23,8 @@ val propagate: model matrix -> matrix
  * algorithm on [model], given the reference matrix [m1] and the
  * entire model's output matrix [m2]. *)
 val backpropagate: model matrix matrix -> matrix
+
+(* [get_category m] is the index of the max value in the probability 
+ * distribution given by matrix [m].
+ * requires: [m] is a vector. *)
+val get_category: matrix -> int
