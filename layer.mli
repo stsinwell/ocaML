@@ -40,7 +40,3 @@ val perf_actv: layer -> matrix
 (* [valid_op layer layer] is true if performing a matrix multiplication
  *  on the two layers is possible. *)
 val valid_op: layer -> layer -> bool
-
-(* [get_entry m row col] gets the entry at (row, col) in the matrix.
- * requires: [m] is a matrix whose entries are floats. *)
-val get_entry: matrix -> int -> int -> float
