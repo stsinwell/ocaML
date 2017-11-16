@@ -1,4 +1,5 @@
 (* loss.mli *)
+open Layer
 
 (* [loss] represents a loss function. L2 is the Euclidean distance
  * between two vectors, L1 is the Manhattan distance between two
