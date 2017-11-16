@@ -1,4 +1,4 @@
-(* layer.mli *)
+open Lacaml
 
 (* [matrix] is a list of float lists representing a matrix. *)
 type matrix = float list list
