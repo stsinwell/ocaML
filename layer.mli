@@ -23,10 +23,10 @@ type layer = matrix * actv
  * activation function [actv]. *)
 val init: int -> int -> actv -> layer
 
-(* [row_space matrix] returns the number of dimensions of the row space. *)
+(* [row_space m] returns the number of dimensions of the row space of [m]. *)
 val row_space: matrix -> int
 
-(* [col_space matrix] returns the number of dimensions of the column space. *)
+(* [col_space m] returns the number of dimensions of the column space of [m]. *)
 val col_space: matrix -> int
 
 (* [matrix_multiply (m1, m2)] returns a matrix representing m1 * m2.
@@ -37,6 +37,6 @@ val matrix_multiply: matrix * matrix -> matrix
  * returning a matrix of the same dimension as [layer]. *)
 val perf_actv: layer -> matrix
 
-(* [valid_op layer layer] is true if performing a matrix multiplication
- *  on the two layers is possible. *)
+(* [valid_op l1 l2] is true if performing a matrix multiplication
+ *  on the two layers [l1] and [l2] is possible. *)
 val valid_op: layer -> layer -> bool
