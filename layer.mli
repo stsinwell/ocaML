@@ -1,12 +1,11 @@
 open Lacaml
 
-(* [matrix] is a list of float lists representing a matrix. *)
-type matrix = float list list
+(* [matrix] is an abstract type representing a matrix. *)
+type matrix
 
-(* [tensor] represents a three-dimensional matrix. We are
- * undecided as of yet if we will be implementing
- * everything with tensors vs. matrices. *)
-type tensor float list list list
+(* [tensor] is an abstract type representing a tensor, which is
+ * a three-dimensional matrix. *)
+type tensor
 
 (* [actv] is an activation function, which can be either sigmoid,
  * ReLU, or softmax. These are non-linear activation functions on
@@ -41,3 +40,7 @@ val perf_actv: layer -> matrix
 (* [valid_op layer layer] is true if performing a matrix multiplication
  *  on the two layers is possible. *)
 val valid_op: layer -> layer -> bool
+
+(* [get_entry m row col] gets the entry at (row, col) in the matrix.
+ * requires: [m] is a matrix whose entries are floats. *)
+val get_entry: matrix -> int -> int -> float
