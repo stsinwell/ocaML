@@ -1,6 +1,7 @@
 open Graphics
 open GMain
 open GMisc
+open Layer
 
 let to_matrix img =
   failwith "unimplemented"
