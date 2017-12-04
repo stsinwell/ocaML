@@ -9,26 +9,24 @@ open Layer
  * 0 and 1 to be usable by the neural network. *)
 val to_matrix: image -> matrix
 
-(* [classify] processes a click of the classify button. 
- * It takes the image in the drawing pane, converts it to a matrix, 
+(* [classify] processes a click of the classify button.
+ * It takes the image in the drawing pane, converts it to a matrix,
  * and classifies it as a digit with the neural network.
- * The classification occurs when the classify button is pressed, and  
+ * The classification occurs when the classify button is pressed, and
  * the output given by the neural network is displayed in a text field
  * on the window. *)
 val classify: unit -> unit
 
-(* [reset] processes a click of the reset button. 
+(* [reset] processes a click of the reset button.
  * It clears the drawing pane and the text field with the output
  * of the neural network when the reset button is pressed. *)
 val reset: unit -> unit
 
 (* [draw] allows the user to draw points or free-form lines on the
- * drawing canvas using a white, fixed-width drawing tool. *)
-val draw: unit -> unit
+ * drawable object [drawable] using a white, fixed-width drawing tool. *)
+(* val draw: GDraw.drawable -> unit *)
 
 (* [main] makes the window and adds the graphical components to it.
  * The graphical components include the drawing pane, classification
  * text field, and buttons to classify and reset. *)
 val main: unit -> unit
-
-
