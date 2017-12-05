@@ -1,4 +1,3 @@
-open Graphics
 open GMain
 open GMisc
 open Layer
