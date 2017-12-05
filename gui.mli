@@ -1,6 +1,6 @@
 open GMain
 open GMisc
-open Layer
+open Matrix
 
 (* [to_matrix img] converts the input [img] to a matrix. The image
  * is initially dumped as a color array array, where entries are RGB
@@ -22,8 +22,8 @@ val classify: unit -> unit
 val reset: unit -> unit
 
 (* [draw] allows the user to draw points or free-form lines on the
- * drawable object [drawable] using a white, fixed-width drawing tool. *)
-val draw: GDraw.drawable -> bool
+ * pixmap using a white, fixed-width drawing tool. *)
+(* val draw: GDraw.pixmap -> bool *)
 
 (* [main] makes the window and adds the graphical components to it.
  * The graphical components include the drawing pane, classification
