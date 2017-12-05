@@ -1,4 +1,3 @@
-open Graphics
 open GMain
 open GMisc
 open Layer
@@ -24,7 +23,7 @@ val reset: unit -> unit
 
 (* [draw] allows the user to draw points or free-form lines on the
  * drawable object [drawable] using a white, fixed-width drawing tool. *)
-(* val draw: GDraw.drawable -> unit *)
+val draw: GDraw.drawable -> bool
 
 (* [main] makes the window and adds the graphical components to it.
  * The graphical components include the drawing pane, classification

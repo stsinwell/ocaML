@@ -1,4 +1,3 @@
-open Graphics
 open GMain
 open GMisc
 open Layer
@@ -9,8 +8,6 @@ let to_matrix img =
 let classify () = ()
 
 let reset () = ()
-
-(* let draw drawable = () *)
 
 (* [canvas] is a drawing canvas that can be repainted. *)
 class canvas packing =
@@ -26,10 +23,16 @@ class canvas packing =
 
     method private repaint () =
       let drawable = Lazy.force drawable in
+      let context = drawable#gc in
       drawable#set_background `BLACK;
+      drawable#set_foreground `BLACK;
       drawable#rectangle ~x:10 ~y:10 ~width:280 ~height:280 ~filled:true ();
       ()
   end
+
+let draw (dw : GDraw.drawable) =
+  dw#rectangle ~x:10 ~y:10 ~width:280 ~height:280 ~filled:true ();
+  false
 
 let main () =
   GtkMain.Main.init ();
@@ -40,7 +43,12 @@ let main () =
   window#connect#destroy ~callback:Main.quit;
 
   (* drawing canvas *)
-  let canvas = new canvas vbox#add in
+  (* let canvas = new canvas vbox#add in *)
+  let canvas_area = drawing_area ~width:280 ~height:280 ~packing:vbox#add () in
+  let canvas = canvas_area#misc#realize ();
+               new GDraw.drawable (canvas_area#misc#window) in
+  let repaint _ = draw canvas in
+  canvas_area#event#connect#expose ~callback: repaint;
 
   (* reset button *)
   let resetbtn = GButton.button ~label:"\nReset\n" ~packing:vbox#add () in
@@ -53,8 +61,9 @@ let main () =
   (* output of classification *)
   let output = label ~markup:"\n<b>OUTPUT</b>\n" ~packing:vbox#add () in
 
-  (* display GUI *)
+  (* display GUI, enter event loop *)
   window#show ();
   Main.main ()
 
+(* Run the GUI *)
 let () = main ()
