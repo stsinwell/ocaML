@@ -12,6 +12,15 @@ module type Activation = sig
   val f' : matrix -> matrix
 end
 
-module LacamlSigmoid : Activation with module Mtx = LacamlMatrix
-(* module LacamlReLU : Activation *)
-(* module LacamlSoftmax : Activation *)
+module type Loss = sig
+  module Mat : Matrix
+  type matrix
+
+  val f : matrix -> matrix -> matrix
+  val f' : matrix -> matrix -> matrix
+end
+
+module LacamlSigmoid : Activation
+module LacamlReLU : Activation
+module LacamlSoftmax : Activation
+module LacamlCrossentropy : Loss
