@@ -1,4 +1,5 @@
 open Matrix
+open Actv
 
 (* [nlmf] is a nonlinear matrix function with a derivative *)
 type nlmf = {
@@ -17,7 +18,12 @@ type actv =
 
 (* [layer] is a layer in the neural network. It consists of a
  * matrix and an activation function. *)
-type layer = matrix * actv
+ 
+type layer = {
+  weights: matrix;
+  bias: matrix;
+  actv: activation
+}
 
 (* [init rows cols actv] initalizes a new layer with
  * a row space of [rows], column space of [cols], and
