@@ -27,8 +27,14 @@ val m_j: matrix -> int -> vector
 
 val v_i: vector -> int -> float
 
-val m_arctan: matrix -> matrix
+val m_sigmoid: matrix -> matrix
 
 val m_relu: matrix -> matrix
 
 val m_softmax: matrix -> matrix
+
+val m_sigmoid_deriv: matrix -> matrix
+
+val m_relu_deriv: matrix -> matrix
+
+val m_softmax_deriv: matrix -> matrix
