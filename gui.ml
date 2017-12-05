@@ -1,7 +1,9 @@
 open GMain
 open GMisc
-open Matrix
+(* open Matrix *)
 
+(* [to_matrix img] converts the input [img] to a matrix with entries between
+ * 0 and 1 to be used by the neural network. *)
 let to_matrix img =
   failwith "unimplemented"
 
@@ -14,7 +16,6 @@ let classify () = ()
 let draw_square x y size ?(white=true) (c:drawing_area) (pm:GDraw.pixmap ref) =
   if white then !pm#set_foreground `WHITE
   else !pm#set_foreground `BLACK;
-  (* c#misc#draw (Some (Gdk.Rectangle.create ~x ~y ~width:size ~height:size)); *)
   !pm#rectangle ~x ~y ~width:size ~height:size ~filled:true ();
   (new GDraw.drawable (c#misc#window))#
     put_pixmap ~x ~y ~xsrc:x ~ysrc:y !pm#pixmap
@@ -50,6 +51,9 @@ let repaint (c:drawing_area) (pm:GDraw.pixmap ref) e =
     put_pixmap ~x ~y ~xsrc:x ~ysrc:y !pm#pixmap;
   false
 
+(* [reset] processes a click of the reset button.
+ * It clears the drawing pane and the text field with the output
+ * of the neural network. *)
 let reset (c:drawing_area) (pm:GDraw.pixmap ref) =
   let canvas_size = 280 in
   draw_square 0 0 canvas_size ~white:false c pm
@@ -80,7 +84,7 @@ let main () =
   ignore (classifybtn#connect#clicked ~callback: classify);
 
   (* output of classification *)
-  let output = label ~markup:"\n<b><u>OUTPUT</u>: </b>\n" ~packing:vbox#add () in
+  let output = label ~markup:"\n<b><u>OUTPUT</u>:</b>\n" ~packing:vbox#add () in
 
   (* display GUI, enter event loop *)
   window#show ();
