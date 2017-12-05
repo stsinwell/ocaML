@@ -2,12 +2,23 @@ open GMain
 open GMisc
 (* open Matrix *)
 
-(* [to_matrix img] converts the input [img] to a matrix with entries between
- * 0 and 1 to be used by the neural network. *)
+(* [save_img c dir] saves the image drawn in drawing area [c] to directory [dir]
+ * as "num.jpg". *)
+let save_img (c:drawing_area) dir =
+  let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
+  let drawing = new GDraw.drawable (c#misc#window) in
+  drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 ~width:280 ~height:280 !pb;
+  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !pb
+
+let load_img () = ()
+
 let to_matrix img =
   failwith "unimplemented"
 
-let classify () = ()
+(* TODO: save -> load -> to_matrix -> send to backend *)
+let classify (c:drawing_area) =
+  save_img c ".";
+  ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is
@@ -81,7 +92,7 @@ let main () =
 
   (* classify button *)
   let classifybtn = GButton.button ~label:"\nClassify\n" ~packing:vbox#add () in
-  ignore (classifybtn#connect#clicked ~callback: classify);
+  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify canvas));
 
   (* output of classification *)
   let output = label ~markup:"\n<b><u>OUTPUT</u>:</b>\n" ~packing:vbox#add () in
