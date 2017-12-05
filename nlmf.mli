@@ -13,7 +13,7 @@ module type Activation = sig
 end
 
 module type Loss = sig
-  module Mtx : LacamlMatrixSig
+  module Mtx : Matrix
   type matrix = Mtx.t
 
   val f : matrix -> matrix -> matrix
