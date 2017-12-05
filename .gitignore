@@ -1,3 +1,5 @@
 *.byte
 _build/
-
+*.bmp
+*.jpeg
+*.png
