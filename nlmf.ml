@@ -42,6 +42,7 @@ module LacamlSigmoid = struct
     (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x)))
 
   (*derivative of sigmoid is S(x)(1-S(x)*)
+  let f' m =
     let x = Mat.div (Mat.exp m) (Mat.add_const 1.0 (Mat.exp m)) in
     gemm x x
   (* gemm (f x) (Mat.add_const (-1.0) (f x))); *)
