@@ -47,6 +47,3 @@ module type Layer = sig
    *  on the two layers [l1] and [l2] is possible. *)
   val valid_op: t -> t -> bool
 end
-
-module HiddenLayer : Layer with module Actv = Sigmoid
-module OutputLayer : Layer with module Actv = Softmax

@@ -1,10 +1,13 @@
 (* model.mli *)
 open Layer
-open Loss
+open Nlmf
+
 
 (* [model] represents the entire neural network, which is a 
  * list of layers. *)
-type model = layer list
+type model = 
+  {layers : layer list;
+  cost : nlmf}
 
 (* [add_layer model matrix] adds a matrix layer [matrix] to the 
  * neural network represented by [model]. 
