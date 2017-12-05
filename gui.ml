@@ -5,12 +5,16 @@ open GMisc
 (* [save_img c dir] saves the image drawn in drawing area [c] to directory [dir]
  * as "num.jpg". *)
 let save_img (c:drawing_area) dir =
-  let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
-  let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
-  let drawing = new GDraw.drawable (c#misc#window) in
-  drawing#get_pixbuf ~src_x:40 ~src_y:40 ~dest_x:0 ~dest_y:0 !pb;
-  (* GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb; *)
-  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !pb
+  let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ~colorspace:`RGB
+                                       ~has_alpha:true ()) in
+  let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ~colorspace:`RGB
+                                 ~has_alpha:true ()) in
+  c#misc#realize ();
+  GdkPixbuf.get_from_drawable
+    ~dest:!pb ~dest_x:0 ~dest_y:0 ~width:280 ~height:280
+    ~src_x:0 ~src_y:0 ~colormap:(c#misc#colormap) (c#misc#window);
+  GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
+  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !mnist_pb
 
 let load_img () = ()
 
@@ -30,6 +34,7 @@ let draw_square x y size ?(white=true) (c:drawing_area) (pm:GDraw.pixmap ref) =
   if white then !pm#set_foreground `WHITE
   else !pm#set_foreground `BLACK;
   !pm#rectangle ~x ~y ~width:size ~height:size ~filled:true ();
+  c#misc#realize ();
   (new GDraw.drawable (c#misc#window))#
     put_pixmap ~x ~y ~xsrc:x ~ysrc:y !pm#pixmap
 
