@@ -1,7 +1,9 @@
-(* [nlmf] is a nonlinear matrix function with a derivative *)
-type nlmf = {
-  val f : matrix -> matrix;
-  val f' : matrix -> matrix;
-}
+open Matrix
 
-val sigmoid -> nlmf
+(* [nlmf] is a nonlinear matrix function with a derivative *)
+type actv
+type loss
+
+val sigmoid : actv
+
+val cat_cross_entropy : loss

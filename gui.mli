@@ -1,6 +1,7 @@
 open GMain
 open GMisc
 open Layer
+open Matrix
 
 (* [to_matrix img] converts the input [img] to a matrix. The image
  * is initially dumped as a color array array, where entries are RGB

@@ -1,32 +1,21 @@
 open Matrix
-open Actv
-
-(* [nlmf] is a nonlinear matrix function with a derivative *)
-type nlmf = {
-  val f : Matrix.matrix -> Matrix.matrix;
-  val f' : Matrix.matrix -> Matrix.matrix;
-}
+open Nlmf
 
 (* [actv] is an activation function, which can be either sigmoid,
  * ReLU, or softmax. These are non-linear activation functions on
  * the output of a layer, which allows neural networks to model
  * non-linear functions. *)
-module Activation : sig
+(* module Activation : sig
 
   val sigmoid : nlmf
   val relu : nlmf
   val softmax : nlmf
 
-end
+end *)
 
 (* [layer] is a layer in the neural network. It consists of a
  * matrix and an activation function. *)
- 
-type layer = {
-  weights: matrix;
-  bias: matrix;
-  actv: activation
-}
+type layer
 
 
 (* [init rows cols actv] initalizes a new layer with
@@ -38,7 +27,7 @@ val init: int -> int -> actv -> layer
  * returning a matrix of the same dimension as [layer]. *)
 
 (* why should this even exist? *)
-val perf_actv: layer -> Matrix.matrix
+(* val perf_actv: layer -> layer *)
 
 (* [valid_op l1 l2] is true if performing a matrix multiplication
  *  on the two layers [l1] and [l2] is possible. *)

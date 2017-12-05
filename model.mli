@@ -1,6 +1,7 @@
 (* model.mli *)
 open Layer
 open Nlmf
+open Matrix
 
 
 (* [model] represents the entire neural network, which is a 
@@ -31,3 +32,6 @@ val backpropagate: model -> matrix -> matrix -> matrix
  * distribution given by matrix [m].
  * requires: [m] is a vector. *)
 val get_category: matrix -> int
+
+
+val train: model -> matrix -> matrix

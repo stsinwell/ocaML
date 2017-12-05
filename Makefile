@@ -5,10 +5,9 @@ gui:
 	ocamlbuild -cflags -w,-S -use-ocamlfind gui.byte && ./gui.byte
 
 base:
-	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo loss.cmo model.cmo
+	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo nlmf.cmo model.cmo
 
 compile:
-	ocamlbuild -cflags -w,-S -use-ocamlfind gui.cmo layer.cmo loss.cmo model.cmo
-
+	ocamlbuild -cflags -w,-S -use-ocamlfind gui.cmo layer.cmo nlmf.cmo model.cmo matrix.cmo
 clean:
 	ocamlbuild -clean
