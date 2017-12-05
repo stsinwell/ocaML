@@ -6,12 +6,12 @@ open Nlmf
 (* [layer] is a layer in the neural network. It consists of a
  * matrix and an activation function. *)
 module type Layer = sig
-  module Mat : Matrix
+  module Mtx : Matrix
   module Actv : Activation
 
   val size : int * int
 
-  type matrix = Mat.t
+  type matrix = Mtx.t
   type actv = matrix -> matrix
   type t ={
     a : actv;

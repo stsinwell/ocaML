@@ -2,10 +2,10 @@ open Matrix
 open Nlmf
 
 module type Layer = sig
-  module Mat : Matrix
+  module Mtx : Matrix
   module Actv : Activation
   val size : int * int
-  type matrix = Mat.t
+  type matrix = Mtx.t
   type actv = matrix -> matrix
   type t = {
     a : actv;

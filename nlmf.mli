@@ -5,13 +5,13 @@ open Matrix
  * the output of a layer, which allows neural networks to model
  * non-linear functions. *)
 module type Activation = sig
-  module Mat : Matrix
-  type matrix
+  module Mtx : Matrix
+  type matrix = Mtx.t
 
   val f : matrix -> matrix
   val f' : matrix -> matrix
 end
 
-module LacamlSigmoid : Activation
-module LacamlReLU : Activation
-module LacamlSoftmax : Activation
+module LacamlSigmoid : Activation with module Mtx = LacamlMatrix
+(* module LacamlReLU : Activation *)
+(* module LacamlSoftmax : Activation *)
