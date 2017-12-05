@@ -19,7 +19,7 @@ val classify: unit -> unit
 (* [reset] processes a click of the reset button.
  * It clears the drawing pane and the text field with the output
  * of the neural network when the reset button is pressed. *)
-val reset: unit -> unit
+val reset: drawing_area -> GDraw.pixmap ref -> unit
 
 (* [draw] allows the user to draw points or free-form lines on the
  * pixmap using a white, fixed-width drawing tool. *)
