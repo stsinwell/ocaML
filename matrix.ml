@@ -6,7 +6,9 @@ module type Matrix = sig
   val size: t -> int * int
 end
 
-module LacamlMatrix : Matrix = struct
+module type LacamlMatrixSig = Matrix with type t = Lacaml.S.Mat.t
+
+module LacamlMatrix = struct
   open Lacaml.S
   type t = Mat.t
 
@@ -18,7 +20,7 @@ module LacamlMatrix : Matrix = struct
 
   let mul m1 m2 =
     gemm m1 m2
-    
+
   let to_list m =
     Mat.to_list m
 end

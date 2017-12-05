@@ -15,4 +15,6 @@ module type Matrix = sig
 
 end
 
-module LacamlMatrix : Matrix
+module type LacamlMatrixSig = Matrix with type t = Lacaml.S.Mat.t
+
+module LacamlMatrix : LacamlMatrixSig

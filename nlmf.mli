@@ -13,14 +13,12 @@ module type Activation = sig
 end
 
 module type Loss = sig
-  module Mat : Matrix
-  type matrix
+  module Mtx : LacamlMatrixSig
+  type matrix = Mtx.t
 
   val f : matrix -> matrix -> matrix
   val f' : matrix -> matrix -> matrix
 end
 
 module LacamlSigmoid : Activation
-module LacamlReLU : Activation
-module LacamlSoftmax : Activation
 module LacamlCrossentropy : Loss
