@@ -1,9 +1,17 @@
 open Matrix
 
-(* [nlmf] is a nonlinear matrix function with a derivative *)
-type actv
-type loss
+(* [actv] is an activation function, which can be either sigmoid,
+ * ReLU, or softmax. These are non-linear activation functions on
+ * the output of a layer, which allows neural networks to model
+ * non-linear functions. *)
+module type Activation = sig
+  module Mat : Matrix
+  type matrix
 
-val sigmoid : actv
+  val f : matrix -> matrix
+  val f' : matrix -> matrix
+end
 
-val cat_cross_entropy : loss
+module LacamlSigmoid : Activation
+module LacamlReLU : Activation
+module LacamlSoftmax : Activation

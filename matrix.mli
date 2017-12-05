@@ -14,3 +14,5 @@ module type Matrix = sig
   val size: t -> int * int
 
 end
+
+module LacamlMatrix : Matrix

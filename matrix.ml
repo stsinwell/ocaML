@@ -10,6 +10,9 @@ module LacamlMatrix : Matrix = struct
   open Lacaml.S
   type t = Mat.t
 
+  let ij m (i, j) =
+    m.{i,j}
+
   let size m =
     (Mat.dim2 m), Mat.dim1 m
 

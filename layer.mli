@@ -1,21 +1,7 @@
 open Matrix
 open Nlmf
 
-(* [actv] is an activation function, which can be either sigmoid,
- * ReLU, or softmax. These are non-linear activation functions on
- * the output of a layer, which allows neural networks to model
- * non-linear functions. *)
-module type Activation = sig
-  module Mat : Matrix
-  type t
 
-  val f : Mat.t -> Mat.t
-  val f' : Mat.t -> Mat.t
-end
-
-module Sigmoid : Activation
-module ReLU : Activation
-module Softmax : Activation
 
 (* [layer] is a layer in the neural network. It consists of a
  * matrix and an activation function. *)
@@ -26,12 +12,12 @@ module type Layer = sig
   val size : int * int
 
   type matrix = Mat.t
-  type actv = Activation.t
-  type t
-
-  val a : actv
-  val w : matrix
-  val b : matrix
+  type actv = matrix -> matrix
+  type t ={
+    a : actv;
+    w : matrix;
+    b : matrix;
+  }
 
   (* [init rows cols actv] initalizes a new layer with
    * a row space of [rows], column space of [cols], and

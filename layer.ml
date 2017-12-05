@@ -1,17 +1,17 @@
-open Nlmf
 open Matrix
+open Nlmf
 
-type layer = {
-  weights: matrix;
-  bias: matrix;
-  actv: actv
-}
-
-let init m n actv = failwith("Unimplemented") 
-
-(* let perf_actv lay =
-  let f = snd lay in f (fst lay) *)
-
-let valid_op l1 l2 = failwith("Unimplemented")
-
-
+module type Layer = sig
+  module Mat : Matrix
+  module Actv : Activation
+  val size : int * int
+  type matrix = Mat.t
+  type actv = matrix -> matrix
+  type t = {
+    a : actv;
+    w : matrix;
+    b : matrix;
+  }
+  val init: int -> int -> actv -> t
+  val valid_op: t -> t -> bool
+end
