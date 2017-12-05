@@ -1,40 +1,40 @@
-open Lacaml.S
+module type Matrix : sig
 
-(* [matrix] is an abstract type representing a matrix. *)
-type matrix
+  (* [matrix] is an abstract type representing a zero-indexed matrix. *)
+  type matrix
+  (* [mm_mul m1 m2] returns a matrix representing the product of m1 and m2.
+   * requires: the column space of m1 must equal the row space of m2. *)
+  val mul: matrix -> matrix -> matrix
 
-(* [vector] is an abstract type representing a vector. *)
-type vector
+  (* [m_ij (i,j)] returns the element of m at position i,j (zero indexed) *)
+  val ij: matrix -> (int*int) -> float
 
-(* [row_space m] returns the number of dimensions of the row space of [m]. *)
-val row_space: matrix -> int
+  (* [m_i m i] is the ith column vector of matrix m (zero indexed) *)
+  val col: matrix -> int -> vector
 
-(* [col_space m] returns the number of dimensions of the column space of [m]. *)
-val col_space: matrix -> int
+  (* [m_j m j] is the jth row vector of matrix m (zero indexed) *)
+  val row: matrix -> int -> vector
 
-(* [mm_mul m1 m2] returns a matrix representing the product of m1 and m2.
- * requires: the column space of m1 must equal the row space of m2. *)
-val mm_mul: matrix -> matrix -> matrix
+  val to_list: matrix -> float list list
 
-(* [m_ij (i,j)] returns the element of m at position i,j *)
-val m_ij: matrix -> (int*int) -> float
+  val size: matrix -> int * int
 
-(* [m_i m i] is the ith column vector of matrix m *)
-val m_i: matrix -> int -> vector
+end
 
-(* [m_j m j] is the jth row vector of matrix m *)
-val m_j: matrix -> int -> vector
+module type Vector : sig
 
-val v_i: vector -> int -> float
+  (* [vector] is an abstract type representing a zero-indexed vector. *)
+  type vector
 
-val m_sigmoid: matrix -> matrix
+  val i: vector -> float
+  (* [row_space m] returns the number of dimensions of the row space of [m]. *)
+  val row_space: matrix -> int
 
-val m_relu: matrix -> matrix
+  (* [col_space m] returns the number of dimensions of the column space of [m]. *)
+  val col_space: matrix -> int
 
-val m_softmax: matrix -> matrix
+  val length: vector -> int
 
-val m_sigmoid_deriv: matrix -> matrix
+  val v_to_list: vector -> float list
 
-val m_relu_deriv: matrix -> matrix
-
-val m_softmax_deriv: matrix -> matrix
+end
