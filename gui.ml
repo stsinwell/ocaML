@@ -7,7 +7,7 @@ open GMisc
 let save_img (c:drawing_area) dir =
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
-  let drawing = new GDraw.drawable (c#misc#window) in
+  let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:40 ~src_y:40 ~dest_x:0 ~dest_y:0 !pb;
   (* GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb; *)
   GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !pb

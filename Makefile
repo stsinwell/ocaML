@@ -1,5 +1,5 @@
-# test:
-# 	ocamlbuild -use-ocamlfind state_test.byte && ./state_test.byte
+test:
+	ocamlbuild -use-ocamlfind gui_test.byte && ./gui_test.byte
 
 gui:
 	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
@@ -9,5 +9,6 @@ base:
 
 compile:
 	ocamlbuild -cflags -w,-S -use-ocamlfind gui.cmo layer.cmo nlmf.cmo model.cmo matrix.cmo
+
 clean:
 	ocamlbuild -clean

@@ -1,15 +1,10 @@
 open GMain
 open GMisc
-<<<<<<< HEAD
-open Layer
-open Matrix
-=======
 (* open Matrix *)
->>>>>>> 4ca9c76d4c93c12a9911c9ebe87e0ff46d0b7309
 
 (* [to_matrix img] converts the input [img] to a matrix with entries between
  * 0 and 1 to be used by the neural network. *)
-val to_matrix: GDraw.drawable -> int list
+val to_matrix: GDraw.drawable -> float list list
 
 (* [classify] processes a click of the classify button.
  * It takes the image in the drawing pane, converts it to a matrix,
