@@ -8,7 +8,7 @@ base:
 	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo nlmf.cmo model.cmo
 
 compile:
-	ocamlbuild -cflags -w,-S -use-ocamlfind gui.cmo layer.cmo nlmf.cmo model.cmo matrix.cmo
+	ocamlbuild -use-ocamlfind gui.cmo layer.cmo nlmf.cmo model.cmo matrix.cmo
 
 clean:
 	ocamlbuild -clean
