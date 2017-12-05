@@ -6,15 +6,15 @@ open Nlmf
 (* [layer] is a layer in the neural network. It consists of a
  * matrix and an activation function. *)
 module type Layer = sig
-  module Mtx : Matrix
-  module Actv : Activation
+  module ActvMtx : ActivationMatrix
 
   val size : int * int
 
-  type matrix = Mtx.t
+  type matrix = ActvMtx.t
   type actv = matrix -> matrix
   type t ={
     a : actv;
+    a' : actv;
     w : matrix;
     b : matrix;
   }
@@ -22,7 +22,7 @@ module type Layer = sig
   (* [init rows cols actv] initalizes a new layer with
    * a row space of [rows], column space of [cols], and
    * activation function [actv]. *)
-  val init: int -> int -> actv -> t
+  val init: int -> int -> t
 
   (* [perf_actv layer] performs elementwise activation on [layer],
    * returning a matrix of the same dimension as [layer]. *)

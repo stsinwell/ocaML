@@ -4,23 +4,19 @@ open Matrix
  * ReLU, or softmax. These are non-linear activation functions on
  * the output of a layer, which allows neural networks to model
  * non-linear functions. *)
-module type Activation = sig
-  module Mtx : Matrix
-  type matrix = Mtx.t
+module type ActivationMatrix = sig
+  include Matrix
 
-  val f : matrix -> matrix
-  val f' : matrix -> matrix
+  val f : t -> t
+  val f' : t -> t
 end
 
-module type Loss = sig
-  module Mat : Matrix
-  type matrix
+module type LossMatrix = sig
+  include Matrix
 
-  val f : matrix -> matrix -> matrix
-  val f' : matrix -> matrix -> matrix
+  val f : t -> t -> t
+  val f' : t -> t -> t
 end
 
-module LacamlSigmoid : Activation
-module LacamlReLU : Activation
-module LacamlSoftmax : Activation
-module LacamlCrossentropy : Loss
+module LacamlSigmoid : ActivationMatrix
+module LacamlCrossentropy : LossMatrix
