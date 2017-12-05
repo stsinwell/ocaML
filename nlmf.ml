@@ -9,10 +9,6 @@ module type Activation = sig
   val f' : matrix -> matrix
 end
 
-module type ActivationMaker =
-  functor (M : Matrix)
-    -> Activation with module Mat = M
-
 module type Actv = sig
   type matrix
   val f: matrix -> matrix
