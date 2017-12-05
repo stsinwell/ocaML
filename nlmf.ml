@@ -33,25 +33,24 @@ type loss = {
 
 module LacamlSigmoid = struct
   open Lacaml.S
+  type matrix = Mat.t
   (*Sigmoid S(x) is e^x / (1 + e^x*)
-  let f =
-    (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x)))
+  let f = fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x));
 
   (*derivative of sigmoid is S(x)(1-S(x)*)
-  let f' m =
-    let x = Mat.div (Mat.exp m) (Mat.add_const 1.0 (Mat.exp m)) in
-    gemm x x
-  (* gemm (f x) (Mat.add_const (-1.0) (f x))); *)
+  let f_dir m =
+    let f = fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x)) in
+                    gemm (f x) (Mat.add_const (-1.0) (f x));
+
   module Mat = LacamlMatrix
-  type matrix = Mat.t
 end
 
-let cat_cross_entropy = {
+module LacamlCrossentropy = struct
+  open Lacmal.S
+  type matrix = Mat.t 
   (*categorical cross entropy is summation over elementwise x * log(x') *)
-  f = (fun x x' -> gemm x x');
-
-  (* Mat.sum (gemm x (Mat.log x'))); *)
+  f = (fun x x' -> Mat.sum (gemm x (Mat.log x')));
 
   (*derivative of categorical cross entropy is difference vector*)
-  f_dir = fun x x' -> Mat.sub x' x
+  f_dir = (fun x x' -> Mat.sub x' x)
 }
