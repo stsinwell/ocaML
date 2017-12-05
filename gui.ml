@@ -34,6 +34,10 @@ let draw (dw : GDraw.drawable) =
   dw#rectangle ~x:10 ~y:10 ~width:280 ~height:280 ~filled:true ();
   false
 
+let draw_square (dw : GDraw.drawable) =
+  dw#rectangle ~x:10 ~y:10 ~width:10 ~height:10 ~filled:true ();
+  false
+
 let main () =
   GtkMain.Main.init ();
 
@@ -44,11 +48,10 @@ let main () =
 
   (* drawing canvas *)
   (* let canvas = new canvas vbox#add in *)
-  let canvas_area = drawing_area ~width:280 ~height:280 ~packing:vbox#add () in
+  let canvas_area = drawing_area ~width:280 ~height:280 ~show:true ~packing:vbox#add () in
   let canvas = canvas_area#misc#realize ();
                new GDraw.drawable (canvas_area#misc#window) in
-  let repaint _ = draw canvas in
-  canvas_area#event#connect#expose ~callback: repaint;
+  canvas_area#event#connect#expose ~callback: (fun _ -> draw_square canvas);
 
   (* reset button *)
   let resetbtn = GButton.button ~label:"\nReset\n" ~packing:vbox#add () in
