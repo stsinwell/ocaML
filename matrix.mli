@@ -12,7 +12,7 @@ val row_space: matrix -> int
 (* [col_space m] returns the number of dimensions of the column space of [m]. *)
 val col_space: matrix -> int
 
-(* [mm_mul (m1, m2)] returns a matrix representing the product of m1 and m2.
+(* [mm_mul m1 m2] returns a matrix representing the product of m1 and m2.
  * requires: the column space of m1 must equal the row space of m2. *)
 val mm_mul: matrix -> matrix -> matrix
 
