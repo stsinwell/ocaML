@@ -1,1 +1,1 @@
-true: package(lacaml), package(lablgtk2)
+true: package(lacaml), package(lablgtk2), package(camlimages)
