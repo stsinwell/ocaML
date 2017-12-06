@@ -1,4 +1,4 @@
-open Matrix
+(* open Matrix
 
 (* [actv] is an activation function, which can be either sigmoid,
  * ReLU, or softmax. These are non-linear activation functions on
@@ -21,4 +21,4 @@ module type Loss = sig
 end
 
 module LacamlSigmoid : Activation
-module LacamlCrossentropy : Loss
+module LacamlCrossentropy : Loss *)

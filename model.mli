@@ -1,20 +1,16 @@
 (* model.mli *)
+open Lacaml.S
 open Layer
 open Nlmf
 open Matrix
 
-
+type matrix = Mat.t
+type layer = Layer.t
 (* [model] represents the entire neural network, which is a 
  * list of layers. *)
-type model = 
-  {layers : layer list;
-  cost : nlmf}
-
-(* [add_layer model matrix] adds a matrix layer [matrix] to the 
- * neural network represented by [model]. 
- * requires: column space of last layer in [model] must equal
- *           row space of [matrix] *)
-val add_layer: model -> matrix -> matrix
+type model = layer list
+  (* {layers : layer list;
+  cost : nlmf} *)
 
 (* [propagate model matrix] propagates [matrix] through the neural
  * network represented by [model] and returns the activation (the

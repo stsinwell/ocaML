@@ -1,17 +1,17 @@
+open Lacaml.S
+open Actv
 open Matrix
-open Nlmf
 
-module type Layer = sig
-  module Mtx : Matrix
-  module Actv : Activation
-  val size : int * int
-  type matrix = Mtx.t
-  type actv = matrix -> matrix
-  type t = {
-    a : actv;
-    w : matrix;
-    b : matrix;
+type matrix = Mat.t
+
+type t = {
+  a : Actv.t;
+  w : Mat.t;
+  b : Mat.t;
+}
+
+let new_layer (m: int) (n: int) (a1: Actv.t) = {
+    a = a1;
+    w = Mat.random m n;
+    b = Mat.random m 1
   }
-  val init: int -> int -> actv -> t
-  val valid_op: t -> t -> bool
-end

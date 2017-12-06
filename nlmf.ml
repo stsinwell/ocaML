@@ -1,4 +1,4 @@
-open Lacaml.S
+(* open Lacaml.S
 open Matrix
 
 module type Activation = sig
@@ -22,6 +22,7 @@ module LacamlSigmoid = struct
   open Lacaml.S
   module Mtx = LacamlMatrix
   type matrix = Mtx.t
+  
   (*Sigmoid S(x) is e^x / (1 + e^x*)
   let f = (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x)))
 
@@ -44,4 +45,4 @@ module LacamlCrossentropy = struct
   let f' = (fun x x' -> Mat.sub x' x)
 
 
-end
+end *)

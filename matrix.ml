@@ -1,26 +1,15 @@
-module type Matrix = sig
-  type t
-  val mul: t -> t -> t
-  val ij: t -> (int*int) -> float
-  val to_list: t -> float list list
-  val size: t -> int * int
-end
+open Lacaml.S
 
-module type LacamlMatrixSig = Matrix with type t = Lacaml.S.Mat.t
+type t = Mat.t
 
-module LacamlMatrix = struct
-  open Lacaml.S
-  type t = Mat.t
+let ij m (i, j) =
+  m.{i,j}
 
-  let ij m (i, j) =
-    m.{i,j}
+let size m =
+  (Mat.dim2 m), Mat.dim1 m
 
-  let size m =
-    (Mat.dim2 m), Mat.dim1 m
+let mul m1 m2 =
+  gemm m1 m2
 
-  let mul m1 m2 =
-    gemm m1 m2
-
-  let to_list m =
-    Mat.to_list m
-end
+let to_list m =
+  Mat.to_list m
