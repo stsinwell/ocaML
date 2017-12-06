@@ -3,15 +3,16 @@ open GMisc
 (* open Matrix *)
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to directory [dir]
- * as "num.jpg". *)
+ * as "num.bmp". *)
 let save_img (c:drawing_area) dir =
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !mnist_pb
+  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !pb
 
+(* [load_img filepath] loads the image at [filepath].*)
 let load_img () = ()
 
 let to_matrix img =
@@ -85,16 +86,17 @@ let main () =
   let canvas = drawing_area ~width:280 ~height:280 ~packing:vbox#add () in
   let pm = ref (GDraw.pixmap ~width:280 ~height:280 ~mask:true ()) in
   canvas#event#add [`BUTTON_PRESS; `BUTTON1_MOTION; `EXPOSURE];
+  ignore (canvas#event#connect#configure ~callback:(fun _ -> reset canvas pm; true));
   ignore (canvas#event#connect#button_press ~callback:(process_click canvas pm));
   ignore (canvas#event#connect#motion_notify ~callback:(process_move canvas pm));
   ignore (canvas#event#connect#expose ~callback:(repaint canvas pm));
 
   (* reset button *)
-  let resetbtn = GButton.button ~label:"\nReset\n" ~packing:vbox#add () in
+  let resetbtn = GButton.button ~label:"Reset" ~packing:vbox#add () in
   ignore (resetbtn#connect#clicked ~callback:(fun () -> reset canvas pm));
 
   (* classify button *)
-  let classifybtn = GButton.button ~label:"\nClassify\n" ~packing:vbox#add () in
+  let classifybtn = GButton.button ~label:"Classify" ~packing:vbox#add () in
   ignore (classifybtn#connect#clicked ~callback:(fun () -> classify canvas));
 
   (* output of classification *)
