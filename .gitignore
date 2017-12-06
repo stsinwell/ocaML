@@ -3,3 +3,4 @@ _build/
 *.bmp
 *.jpeg
 *.png
+.DS_Store
