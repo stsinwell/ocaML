@@ -2,3 +2,4 @@ B _build
 PKG lablgtk2
 PKG lacaml
 PKG camlimages
+PKG oUnit

@@ -1,11 +1,11 @@
 open GMain
 open GMisc
 open Images
-(* open Matrix *)
 
-(* [to_matrix img] converts the input [img] to a matrix with entries between
- * 0 and 1 to be used by the neural network. *)
-val to_matrix: Bmp.bmp -> float list 
+(* [to_matrix img] converts the input [img] to a 1x784 matrix with entries
+ * between 0 and 1 to be used by the neural network. The matrix here is
+ * represented as a float list. *)
+val to_matrix: Bmp.bmp -> float list
 
 (* [classify] processes a click of the classify button.
  * It takes the image in the drawing pane, converts it to a matrix,

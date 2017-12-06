@@ -1,3 +1,5 @@
+open OUnit2
+open Gui
 
 let rec print_list = function
   | [] -> ()

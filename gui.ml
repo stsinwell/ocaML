@@ -2,7 +2,6 @@ open GMain
 open GMisc
 open Images
 open Bmp
-(* open Matrix *)
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
@@ -12,8 +11,8 @@ let save_img (c:drawing_area) =
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename:"num.bmp" ~typ:"bmp" !mnist_pb;
-  "./num.bmp"
+  GdkPixbuf.save ~filename:"num.png" ~typ:"png" !mnist_pb;
+  "./num.png"
 
 (* [load_img filepath] loads the image at [filepath].*)
 let load_img filepath : Bmp.bmp =
@@ -118,4 +117,4 @@ let main () =
   Main.main ()
 
 (* Run the GUI *)
-let () = main ()
+(* let () = main () *)
