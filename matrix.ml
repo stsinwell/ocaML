@@ -21,7 +21,6 @@ let mat_const m n c =
 let to_list m =
   Mat.to_list m
 
-(* [floats_to_str l] converts a list of floats [l] to a string.*)
 let floats_to_str (l : float list) =
   let rec loop acc = function
     | [] -> acc
@@ -29,8 +28,6 @@ let floats_to_str (l : float list) =
               else loop (acc ^ " " ^ string_of_float h) t
   in loop "" l
 
-(* [strs_to_str l] converts a list of strings [l] to a string, where each
- * string is separated by a newline. *)
 let strs_to_str (l : string list) =
   let rec loop acc = function
     | [] -> acc

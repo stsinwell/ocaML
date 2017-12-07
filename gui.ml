@@ -3,52 +3,22 @@ open GMisc
 open Images
 open Graphics
 
-(* [img_no] is a constant to keep track of how many drawings can be saved.
- * This allows multiple drawings to be saved into the [images] directory.
- * This number is reset whenever a new drawing session is started (i.e.
- * whenever the GUI is restarted). *)
-let img_no = ref 0
-
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
-  let filename = "./images/num" ^ string_of_int !img_no ^ ".bmp" in
+  let filename = "./images/num.bmp" in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb;
-  incr img_no;
-  filename
-
-(* [process_color c] is a float between 0.0 and 1.0 that represents the RGB
- * color value given in [c]. *)
-let process_color (c : int) =
-  let red = ((c lsr 16)) land 0xff in
-  let green = ((c lsr 8)) land 0xff in
-  let blue = c land 0xff in
-  float (((red + green + blue) / 3) land 0xff) /. 255.0
-
-let to_matrix (img:Images.t) =
-  let matrix = ref [] in
-  (match img with
-   | Rgb24 bmp ->
-       begin for i = 0 to (bmp.Rgb24.height - 1) do
-         (for j = 0 to (bmp.Rgb24.width - 1) do
-            let {r = r; g = g; b = b} = Rgb24.get bmp j i
-            in matrix := [Graphics.rgb r g b]::(!matrix)
-          done)
-       done
-       end
-   | _ -> failwith "invalid filetype");
-  List.rev !matrix
-  |> List.map (fun el -> List.map (fun e -> process_color e) el)
+  GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb
 
 (* TODO: save -> load -> to_matrix -> send to backend *)
 let classify (c:drawing_area) =
-  load (save_img c) []
-  |> to_matrix; ()
+  save_img c;
+  ignore (Sys.command "utop");
+  ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is
