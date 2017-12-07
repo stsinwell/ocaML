@@ -16,7 +16,7 @@ let mat_ones m n =
 let mat_zeros m n =
   Mat.random m n ~from:(0.0) ~range:(0.0)
 
-let mat_const m n c = 
+let mat_const m n c =
   Mat.random m n ~from:(c) ~range:(0.0)
 let to_list m =
   Mat.to_list m
@@ -54,12 +54,14 @@ let file_to_list filename =
   in parse_file ch []
 
 let load_weights path =
-  file_to_list path
-  |> List.map (fun x -> List.map (fun y -> float_of_string y) x)
-  |> Mat.of_list
+  try
+    file_to_list path
+    |> List.map (fun x -> List.map (fun y -> float_of_string y) x)
+    |> Mat.of_list
+  with
+  | _ -> failwith "d"
 
-
-let print m = 
+let print m =
     let () =
         let a = m in
         let rows, cols = (Mat.dim1 a), (Mat.dim2 a) in
@@ -75,4 +77,3 @@ let print m =
             ~print_right:false
             ~print_foot:false ())
         m in ()
- 

@@ -15,7 +15,7 @@ let save_img (c:drawing_area) =
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
   GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb
 
-let classify (v:GPack.box) (c:drawing_area) =
+let classify (s:string ref) (c:drawing_area) =
   save_img c;
   ignore (Sys.command "utop");
   let d = Filename.dir_sep in
@@ -24,9 +24,8 @@ let classify (v:GPack.box) (c:drawing_area) =
               dir^"saved_net-mnist-model-0bias.txt");
              (dir^"saved_net-mnist-model-1wgt.txt",
               dir^"saved_net-mnist-model-1bias.txt")] in
-  let result = infer net (dir^"matrix_user.txt") in
-  ignore (label ~markup:("\n<b>OUTPUT:</b>" ^ string_of_int result ^ "\n" )
-            ~packing:v#add ());
+  s := infer net (dir^"matrix_user.txt") |> string_of_int;
+  Format.printf "%s" ((!s)^" ");
   ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
@@ -103,7 +102,14 @@ let main () =
 
   (* classify button *)
   let classifybtn = GButton.button ~label:"Classify" ~packing:vbox#add () in
-  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify vbox canvas));
+  let out = ref "" in
+  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify out canvas));
+
+  (* output label *)
+  (* let outlabel = label ~markup:("\n<b>OUTPUT:</b>" ^ !out ^ "\n" )
+      ~packing:vbox#add ());
+outlabel#connect# *)
+
 
   (* display GUI, enter event loop *)
   window#show ();

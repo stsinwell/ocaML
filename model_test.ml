@@ -54,7 +54,7 @@ let train_set = Mnist.data `Train
 
 let x, y = decode train_set 2
 
-let new_net = train network train_set 10 1 ~id:"mnist" ()
+let new_net = train network train_set 20000 1 ~id:"mnist" ()
 
 let () = print y
 let fst = infer (snd new_net) (save_weights "x" x)
