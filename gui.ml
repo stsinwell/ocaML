@@ -3,7 +3,6 @@ open GMisc
 open Images
 open Bmp
 
-
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
