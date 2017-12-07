@@ -3,10 +3,7 @@ PKG lablgtk2
 PKG lacaml
 PKG camlimages
 PKG oUnit
-<<<<<<< HEAD
 PKG Graphics
-=======
 PKG Str
 PKG csv
 PKG dsfo
->>>>>>> b9fc81c7c9fe9199a2f3312a180b380cb838d21a
