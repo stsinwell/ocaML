@@ -2,6 +2,7 @@ open GMain
 open GMisc
 open Images
 open Graphics
+open Model
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
@@ -14,10 +15,18 @@ let save_img (c:drawing_area) =
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
   GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb
 
-(* TODO: save -> load -> to_matrix -> send to backend *)
-let classify (c:drawing_area) =
+let classify (v:GPack.box) (c:drawing_area) =
   save_img c;
   ignore (Sys.command "utop");
+  let d = Filename.dir_sep in
+  let dir = "."^d^"matrices"^d in
+  let net = [(dir^"saved_net-mnist-model-0wgt.txt",
+              dir^"saved_net-mnist-model-0bias.txt");
+             (dir^"saved_net-mnist-model-1wgt.txt",
+              dir^"saved_net-mnist-model-1bias.txt")] in
+  let result = infer net (dir^"matrix_user.txt") in
+  ignore (label ~markup:("\n<b>OUTPUT:</b>" ^ string_of_int result ^ "\n" )
+            ~packing:v#add ());
   ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
@@ -83,7 +92,7 @@ let main () =
   let pm = ref (GDraw.pixmap ~width:280 ~height:280 ~mask:true ()) in
   canvas#event#add [`BUTTON_PRESS; `BUTTON1_MOTION; `EXPOSURE];
   ignore (canvas#event#connect#configure ~callback:(fun _ -> reset canvas pm;
-                                                             true));
+                                                     true));
   ignore (canvas#event#connect#button_press ~callback:(process_click canvas pm));
   ignore (canvas#event#connect#motion_notify ~callback:(process_move canvas pm));
   ignore (canvas#event#connect#expose ~callback:(repaint canvas pm));
@@ -94,10 +103,7 @@ let main () =
 
   (* classify button *)
   let classifybtn = GButton.button ~label:"Classify" ~packing:vbox#add () in
-  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify canvas));
-
-  (* output of classification *)
-  let output = label ~markup:"\n<b><u>OUTPUT</u>:</b>\n" ~packing:vbox#add () in
+  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify vbox canvas));
 
   (* display GUI, enter event loop *)
   window#show ();

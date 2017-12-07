@@ -35,16 +35,14 @@ val backpropagate: model -> matrix list -> matrix -> matrix list
 val full_pass: network -> matrix -> matrix -> network
 
 
-val full_pass: network -> matrix -> matrix -> network
-
-
-val train: network -> matrix -> int -> int -> network
+val train: network -> matrix -> int -> int -> ?id:string -> unit ->
+  (network * ((string * string) list))
 
 (* [infer n m] is the index of the max value in the probability
  * distribution given by matrix [m].
  * requires: [m] is a vector. *)
 (* val get_category: matrix -> int *)
-val infer: network -> matrix -> int
+val infer: (string * string) list -> string -> int
 
 (* [save_m m id] saves the weights and biases of all the layers in model [m] as
  * matrix text files. It returns an association list of (weight file names,
