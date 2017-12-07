@@ -1,7 +1,7 @@
 open GMain
 open GMisc
 open Graphics
-open Matrix
+(* open Matrix *)
 open Lacaml.S
 
 (*[fill_color node] sets the current color according to the  
@@ -83,18 +83,18 @@ let arrange_layers (layer_lst : float list list ) =
   (*determine spacing between layer representations*)
   let num_layers = List.length transformed in
   let offset = 50 in
-  let x_spacing = (size_x() - 2*offset) / num_layers in 
+  let x_spacing = (size_x() - 100) / num_layers in 
 
   (*send each layer off to be drawn*)
   let rec insert_layers (transformed: float list list) x_pos = 
     match transformed with
     | [] -> draw_circle 0 0 0
-    | h :: t -> insert_layer h offset; (insert_layers t (x_pos + x_spacing))
+    | h :: t -> insert_layer h x_pos; (insert_layers t (x_pos + x_spacing))
   in
-  insert_layers transformed x_spacing
+  insert_layers transformed offset
 
 let main () =
-  let window = open_graph " 1000 * 800" in
+  open_graph " 1000x500";
   set_window_title "Network Visualization";
   let sample = [[0.1;0.5;1.0]; [1.0;0.8;0.9]; [0.1;0.2]] in 
   arrange_layers sample;
