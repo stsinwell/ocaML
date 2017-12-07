@@ -1,4 +1,4 @@
-open Model 
+open Model
 open Layer
 open Lacaml.D
 open Lacaml.Io
@@ -8,8 +8,7 @@ open Loss
 open Dsfo
 open Bigarray
 
-
-let print m = 
+let print m =
   let () =
       let a = m in
       let rows, cols = (Mat.dim1 a), (Mat.dim2 a) in
@@ -45,8 +44,8 @@ let decode dt i =
   let v = Array2.slice_right dt i in
   let m =
       Array1.sub v 1 w |> genarray_of_array1 in
-  let m = (reshape_2 m w 1) in  
-  
+  let m = (reshape_2 m w 1) in
+
   let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
   let label = (reshape_2 label 10 1) in m, label
 
@@ -60,6 +59,7 @@ let new_net = train network train_set 10 1
 let () = print y
 let fst = infer new_net x
 
+<<<<<<< HEAD
 let () = print_int fst;
 (* 
 let () = 
@@ -84,6 +84,10 @@ let () =
 (* 
 let () = 
   let rec helper y = 
+=======
+let () =
+  let rec helper y =
+>>>>>>> 8caa365b3fa42443b4d24c9c88c13d54bf80b968
     match y with
     |[] -> ()
     | h::t -> let a = h in
@@ -100,8 +104,15 @@ let () =
               ~print_right:false
               ~print_foot:false ())
             a; helper t in
-    helper fwd2 in (); *)
+  helper fst
 
-   
-  
+(* Save/load tests *)
+let layer0 = {a = sigmoid; w = mat_ones 5 5; b = mat_ones 5 1}
+let layer1 = {a = sigmoid; w = mat_zeros 4 2; b = mat_ones 4 1}
+let model_test = [layer0; layer1]
+let _ = save_m "./matrices/test5" model_test |> load_m |> save_m "./matrices/test6"
 
+let network_test = { model = model_test; loss = cat_crossentropy }
+let _ = save_net "testnet" network_test
+        |> load_net cat_crossentropy
+        |> save_net "testnet2"

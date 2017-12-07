@@ -1,4 +1,4 @@
-(* open GMain
+open GMain
 open GMisc
 open Images
 open Graphics
@@ -104,4 +104,4 @@ let main () =
   Main.main ()
 
 (* Run the GUI *)
-let () = main () *)
+let () = main ()

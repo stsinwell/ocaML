@@ -6,7 +6,7 @@
 #directory "_build"
 #load "matrix.cmo";;
 #use "image.ml";;
-open Lacaml.S;;
+open Lacaml.D;;
 open Images;;
   let file = open_out "./matrices/matrix_user.txt" in
   Printf.fprintf file "%s" (Images.load "./images/num.bmp" [] |> to_matrix |>

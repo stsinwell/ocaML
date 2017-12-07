@@ -1,8 +1,11 @@
 open Lacaml.D
+open Matrix
+
+type matrix = Matrix.t
 
 type t = {
-  f: Mat.t -> Mat.t -> float;
-  f': Mat.t -> Mat.t -> Mat.t;
+  f: matrix -> matrix -> float;
+  f': matrix -> matrix -> matrix;
 }
 
 let cat_crossentropy = {
