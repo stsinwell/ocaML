@@ -4,3 +4,4 @@ PKG lacaml
 PKG camlimages
 PKG oUnit
 PKG Str
+PKG csv

@@ -1,4 +1,4 @@
-(* open GMisc
+open GMisc
 open Images
 open Graphics
 
@@ -23,4 +23,4 @@ let to_matrix (img:Images.t) =
        end
    | _ -> failwith "invalid filetype");
   List.rev !matrix
-   |> List.map (fun el -> List.map (fun e -> process_color e) el) *)
+  |> List.map (fun el -> List.map (fun e -> process_color e) el)
