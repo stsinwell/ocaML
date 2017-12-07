@@ -30,7 +30,7 @@ let propagate (m: model) (input: matrix) =
                     
                     ) input m *)
 
-let backpropagate (m: model) (input: matrix) = 
+let backpropagate (m: model) (input: matrix) (l: matrix) = 
     let rev_net = List.rev m in
     let layer_update l l' c i = 
         Mat.mul (gemm l.w c ~transa:`T) (l.a.f' i) in
@@ -39,8 +39,8 @@ let backpropagate (m: model) (input: matrix) =
     (*
     - a is the weight list from running input through model
     - w is the weights of the model *)
-    let network_update n a l = 
-        let rec store_weights a w l wl = 
+    let network_update (a: model) (l:matrix) = 
+        let rec store_weights (a: model)  w l wl = 
             (*CHANGE*)
             (*
             - wl is the accumulator that collects 
@@ -50,12 +50,11 @@ let backpropagate (m: model) (input: matrix) =
                 let out = layer_update hl2 hl1 l ha2
                 in
                 store_weights (ha2::ta) (hl2::tl) out (out::wl)
-            | _ -> wl
-            
-            in
-            let wl = store_weights a rev_net l []
-            in 
-            List.rev (l::(List.rev wl))
+            | _ -> wl in
+        let wl = store_weights a rev_net l [] in 
+        List.rev (l::(List.rev wl)) in 
+
+    network_update m l
 
 
 
