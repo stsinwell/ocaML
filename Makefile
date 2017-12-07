@@ -14,7 +14,7 @@ test_model:
 	ocamlbuild -use-ocamlfind model_test.byte && ./model_test.byte
 
 gui:
-	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
+	ocamlbuild -use-ocamlfind matrix.cmo gui.byte && ./gui.byte
 
 base:
 	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo model.cmo
