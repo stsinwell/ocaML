@@ -55,7 +55,7 @@ let file_to_list filename =
 
 let load_weights path =
   try
-    file_to_list path
+    List.rev (file_to_list path)
     |> List.map (fun x -> List.map (fun y -> float_of_string y) x)
     |> Mat.of_list
   with
