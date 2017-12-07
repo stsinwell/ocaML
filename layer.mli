@@ -1,4 +1,4 @@
-open Lacaml.S
+open Lacaml.D
 open Actv
 open Matrix
 

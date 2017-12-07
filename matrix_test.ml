@@ -20,12 +20,16 @@ let matrix_tests = [
                              (mat_zeros 2 1 |> to_list));
   "saveload0" >:: (fun _ -> assert_equal [[1.75; 1.75]; [1.75; 1.75]; [1.75; 1.75]]
                             (mat_const 3 2 1.75
-                             |> save "./matrices/test0.txt"
-                             |> load |> to_list));
+                             |> save_weights "./matrices/test0.txt"
+                             |> load_weights |> to_list));
   "saveload1" >:: (fun _ -> assert_equal [[2.25; 2.25; 2.25]; [2.25; 2.25; 2.25]]
                       (mat_const 2 3 2.25
-                       |> save "./matrices/test1.txt"
-                       |> load |> to_list));
+                       |> save_weights "./matrices/test1.txt"
+                       |> load_weights |> to_list));
+  "saveload_vect" >:: (fun _ -> assert_equal [[2.5]; [2.5]; [2.5]]
+                          (mat_const 3 1 2.5
+                           |> save_weights "./matrices/test2.txt"
+                           |> load_weights |> to_list));
 ]
 
 let suite = "matrix test suite" >:::
