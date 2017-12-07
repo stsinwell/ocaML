@@ -28,26 +28,20 @@ let propagate (m: model) (input: matrix) =
   in
   store_weights m input []
 
-    (*
-    - m is model list
-    - a is an activation model for m given some input
-    - l is the gradient of loss function
-    *)
+(* m is model list
+ * a is an activation model for m given some input
+ * l is the gradient of loss function *)
 let backpropagate (m: model) (a:matrix list) (l: matrix) =
   let layer_update l l' c i =
     let a = (gemm l'.w c ~transa:`T) in
     let x = (l.a.f' i) in
     Mat.mul a x in
 
-    (*
-    - w is the weights of the model
-    *)
+  (* w is the weights of the model *)
   let network_update (m: model) (a: matrix list) (l:matrix) =
+   (* wl is the accumulator that collects
+    * the result of applying layer_update *)
     let rec store_weights a w l wl =
-            (*
-              - wl is the accumulator that collects
-              the result of applying layer_update
-              *)
       match (a, w) with
       | (a1::a2::ta, w1::w2::tl) ->
         let out = layer_update w2 w1 l a2 in
@@ -64,11 +58,9 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
   let g = backpropagate n.model forward cost in
 
   let rec update_layers a g l wl =
-        (*
-        - a is activation matrix list
-        - g is gradient matrix list
-        - l is layer list
-        *)
+    (* a is activation matrix list
+     * g is gradient matrix list
+     * l is layer list *)
     match (a, g, l) with
     | (a::na, g::gn, l::nl) ->
       let new_layer = update_w_and_b l a g in
@@ -90,7 +82,7 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
       let m = Mat.transpose_copy temp in
       let m = genarray_of_array2 m in
     let m = (reshape_2 m 784 1) in
-  
+
     let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
     let label = (reshape_2 label 10 1) in m, label
 
