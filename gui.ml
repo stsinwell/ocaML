@@ -24,9 +24,7 @@ let classify (s:string ref) (c:drawing_area) =
               dir^"saved_net-mnist-model-0bias.txt");
              (dir^"saved_net-mnist-model-1wgt.txt",
               dir^"saved_net-mnist-model-1bias.txt")] in
-  s := infer net (dir^"matrix_user.txt") |> string_of_int;
-  Format.printf "%s" ((!s)^" ");
-  ()
+  s := infer net (dir^"matrix_user.txt") |> string_of_int
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is
@@ -103,13 +101,9 @@ let main () =
   (* classify button *)
   let classifybtn = GButton.button ~label:"Classify" ~packing:vbox#add () in
   let out = ref "" in
-  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify out canvas));
-
-  (* output label *)
-  (* let outlabel = label ~markup:("\n<b>OUTPUT:</b>" ^ !out ^ "\n" )
-      ~packing:vbox#add ());
-outlabel#connect# *)
-
+  let outlabel = label ~markup:("\n<b>OUTPUT</b>\n") ~packing:vbox#add () in
+  ignore (classifybtn#connect#clicked ~callback:(fun () -> classify out canvas;
+                                outlabel#set_label ("<b>\n"^(!out)^"\n</b>")));
 
   (* display GUI, enter event loop *)
   window#show ();

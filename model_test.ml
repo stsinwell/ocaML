@@ -25,8 +25,6 @@ let print m =
          ~print_foot:false ())
       m in ()
 
-
-
 let model= [
   (new_layer 784 64 sigmoid);
   (new_layer 64 10 sigmoid)
@@ -38,7 +36,6 @@ let network = {
   loss = cat_crossentropy
 }
 
-
 let decode dt i =
   let w = 784 in
   let v = Array2.slice_right dt i in
@@ -49,12 +46,11 @@ let decode dt i =
   let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
   let label = (reshape_2 label 10 1) in m, label
 
-
 let train_set = Mnist.data `Train
 
 let x, y = decode train_set 2
 
-let new_net = train network train_set 20000 1 ~id:"mnist" ()
+let new_net = train network train_set 60000 1 ~id:"mnist" ()
 
 let () = print y
 let fst = infer (snd new_net) (save_weights "x" x)
