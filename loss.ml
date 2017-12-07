@@ -1,6 +1,6 @@
 open Lacaml.S
 
-type loss = {
+type t = {
   f: Mat.t -> Mat.t -> float;
   f': Mat.t -> Mat.t -> Mat.t;
 }

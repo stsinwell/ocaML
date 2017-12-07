@@ -41,6 +41,8 @@ let save m =
   close_out file;
   incr file_no
 
+(* [file_to_list filename] reads a file and creates a list of its contents,
+ * where each line is a list within the larger list. *)
 let file_to_list filename =
   let ch = open_in filename in
   let rec parse_file ch acc =

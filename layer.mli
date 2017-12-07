@@ -2,10 +2,18 @@ open Lacaml.S
 open Actv
 open Matrix
 
+type matrix = Matrix.t
+type actv = Actv.t
+
 type t = {
-  a : Actv.t;
-  w : Mat.t;
-  b : Mat.t;
+  a : actv;
+  w : matrix;
+  b : matrix;
 }
 
-val new_layer : int -> int -> Actv.t -> t
+val new_layer : int -> int -> actv -> t
+
+(* [load_layer act wf bf] is a layer with activation function [act], weights
+ * loaded from the matrix file [wf], and biases loaded from the matrix file
+ * [bf]. *)
+val load_layer: actv -> string -> string -> t

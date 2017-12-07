@@ -1,16 +1,16 @@
-(* model.mli *)
 open Lacaml.S
 open Layer
 open Matrix
 open Loss
 
-type matrix
-type layer
+type matrix = Matrix.t
+type layer = Layer.t
+
 (* [model] represents the entire neural network, which is a
  * list of layers. *)
 type model
-type network
 
+type network
 
 (* [propagate model matrix] propagates [matrix] through the neural
  * network represented by [model] and returns the activation (the

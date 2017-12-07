@@ -1,6 +1,6 @@
 open Lacaml.S
 
-type t
+type t = Mat.t
 
 val mat_random : int -> int -> Mat.t
 
