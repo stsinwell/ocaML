@@ -1,11 +1,11 @@
-test:
-	ocamlbuild -use-ocamlfind gui_test.byte && ./gui_test.byte
-
-gui:
-	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
+actv_test:
+	ocamlbuild -use-ocamlfind actv_test.byte && ./actv_test.byte
 
 test_model:
 	ocamlbuild -use-ocamlfind model_test.byte && ./model_test.byte
+
+gui:
+	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
 
 base:
 	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo model.cmo

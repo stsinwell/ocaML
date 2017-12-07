@@ -2,6 +2,8 @@ open Lacaml.S
 
 type t = Mat.t
 
+val mat_const : int -> int -> float -> Mat.t
+
 val mat_random : int -> int -> Mat.t
 
 val mat_ones : int -> int -> Mat.t

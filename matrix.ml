@@ -3,6 +3,9 @@ open Str
 
 type t = Mat.t
 
+let mat_const m n c =
+  Mat.random m n ~from:(c) ~range:(0.0)
+
 let mat_random m n =
   Mat.random m n ~from:(-1.0) ~range:(2.0)
 
@@ -19,8 +22,7 @@ let to_list m =
 let floats_to_str (l : float list) =
   let rec loop acc = function
     | [] -> acc
-    | h::t -> if acc = "" then loop (acc ^ string_of_float h) t
-              else loop (acc ^ " " ^ string_of_float h) t
+    | h::t -> loop (acc ^ " " ^ string_of_float h) t
   in loop "" l
 
 (* [strs_to_str l] converts a list of strings [l] to a string, where each
@@ -28,8 +30,7 @@ let floats_to_str (l : float list) =
 let strs_to_str (l : string list) =
   let rec loop acc = function
     | [] -> acc
-    | h::t -> if acc = "" then loop (acc ^ h ^ "\n") t
-              else loop (acc ^ " " ^ h ^ "\n") t
+    | h::t -> loop (acc ^ " " ^ h ^ "\n") t
 in loop "" l
 
 let save m =
