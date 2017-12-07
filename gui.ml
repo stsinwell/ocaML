@@ -15,7 +15,6 @@ let save_img (c:drawing_area) =
   "./num.png"
 
 (* [load_img filepath] loads the image at [filepath].*)
-let load_img filepath : Bmp.bmp =
   Bmp.load_bmp filepath
 
 (* [rgb_to_bw rgb] converts a RGB value to a black/white value, based on
@@ -111,6 +110,9 @@ let main () =
 
   (* output of classification *)
   let output = label ~markup:"\n<b><u>OUTPUT</u>:</b>\n" ~packing:vbox#add () in
+  let vis_window = GWindow.window ~width:400 ~height:410 ~title: "visualisation" () in 
+  vis_window#set_resizable false;
+  let vis_vbox = GPack.vbox ~packing:vis_window#add () in
 
   (* display GUI, enter event loop *)
   window#show ();
