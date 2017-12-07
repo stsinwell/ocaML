@@ -52,5 +52,5 @@ let update_w_and_b (l: t) (a: matrix) (g: matrix) =
 
 let load_layer act wf bf =
   {a = act;
-   w = Matrix.load wf;
-   b = Matrix.load bf}
+   w = Matrix.load_weights wf;
+   b = Matrix.load_weights bf}

@@ -4,6 +4,9 @@ open Str
 
 type t = Mat.t
 
+let mat_const m n c =
+  Mat.random m n ~from:(c) ~range:(0.0)
+
 let mat_random m n =
   Mat.random m n ~from:(-1.0) ~range:(2.0)
 
@@ -35,14 +38,13 @@ let strs_to_str (l : string list) =
               else loop (acc ^ " " ^ h ^ "\n") t
 in loop "" l
 
-let save m =
-  let file_no = ref 0 in
-  let file = open_out ("./matrices/matrix" ^ string_of_int !file_no ^ ".txt") in
+let save_weights path m =
+  let file = open_out path in
   Printf.fprintf file "%s" (to_list m
                             |> List.map (fun x -> floats_to_str x)
                             |> strs_to_str);
   close_out file;
-  incr file_no
+  path
 
 (* [file_to_list filename] reads a file and creates a list of its contents,
  * where each line is a list within the larger list. *)
@@ -54,8 +56,8 @@ let file_to_list filename =
     | line -> parse_file ch (Str.split (regexp " ") line::acc)
   in parse_file ch []
 
-let load filename =
-  file_to_list filename
+let load_weights path =
+  file_to_list path
   |> List.map (fun x -> List.map (fun y -> float_of_string y) x)
   |> Mat.of_list
 

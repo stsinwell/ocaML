@@ -3,6 +3,7 @@ open Layer
 open Matrix
 open Actv
 open Loss
+open Owl
 
 type matrix = Matrix.t
 type layer = Layer.t
@@ -15,8 +16,6 @@ type network  = {
   }
 
 let get_category m = failwith "sdfhdsfds"
-
-let train m m1 = failwith "sdfjdslf"
 
 
 
@@ -99,9 +98,28 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
         }
 
 
+        let rec load f =
+            let g = fun r -> (float_of_string (List.hd r), 
+                             (List.map float_of_string (List.tl r)))
+            in
+            List.map g (Csv.load f)
 
-
-
+    let csv_file n m t f =
+        let data = load f
+        and network = ref n
+        in
+        let g = (fun x -> let (o,i) = x 
+                        in 
+                        let o = Mat.of_list o in 
+                        let i = Mat.of_list i in
+                        network := full_pass !network i  o)
+        in
+        for i = 1 to t do
+            List.iter g data;   
+        done;
+        !network
+        
+        
 
 
 

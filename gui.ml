@@ -1,12 +1,17 @@
-open GMain
+(* open GMain
 open GMisc
 open Images
-open Bmp
+open Graphics
+
+(* [img_no] is a constant to keep track of how many drawings can be saved.
+ * This allows multiple drawings to be saved into the [images] directory.
+ * This number is reset whenever a new drawing session is started (i.e.
+ * whenever the GUI is restarted). *)
+let img_no = ref 0
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
-  let img_no = ref 0 in
   let filename = "./images/num" ^ string_of_int !img_no ^ ".bmp" in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
@@ -17,22 +22,33 @@ let save_img (c:drawing_area) =
   incr img_no;
   filename
 
-(* [load_img filepath] loads the image at [filepath].*)
-let load_img filepath : Bmp.bmp =
-  Bmp.load_bmp filepath
+(* [process_color c] is a float between 0.0 and 1.0 that represents the RGB
+ * color value given in [c]. *)
+let process_color (c : int) =
+  let red = ((c lsr 16)) land 0xff in
+  let green = ((c lsr 8)) land 0xff in
+  let blue = c land 0xff in
+  float (((red + green + blue) / 3) land 0xff) /. 255.0
 
-let to_matrix (img : Bmp.bmp) =
-  let rec loop b acc =
-    String.(if length b = 0 then acc
-    else let b' = sub b 1 (length b - 1) in
-         let byte = sub b 1 1 |> int_of_string in
-         loop b' (byte::acc))
-  in loop (img.bmpBytes |> Bytes.to_string) []
-     |> List.map (fun e -> float e)
+let to_matrix (img:Images.t) =
+  let matrix = ref [] in
+  (match img with
+   | Rgb24 bmp ->
+       begin for i = 0 to (bmp.Rgb24.height - 1) do
+         (for j = 0 to (bmp.Rgb24.width - 1) do
+            let {r = r; g = g; b = b} = Rgb24.get bmp j i
+            in matrix := [Graphics.rgb r g b]::(!matrix)
+          done)
+       done
+       end
+   | _ -> failwith "invalid filetype");
+  List.rev !matrix
+  |> List.map (fun el -> List.map (fun e -> process_color e) el)
 
 (* TODO: save -> load -> to_matrix -> send to backend *)
 let classify (c:drawing_area) =
-  save_img c |> load_img |> to_matrix; ()
+  load (save_img c) []
+  |> to_matrix; ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is
@@ -49,7 +65,7 @@ let draw_square x y size ?(white=true) (c:drawing_area) (pm:GDraw.pixmap ref) =
 (* [process_click c pm e] processes a click on drawing area [c] after event [e].
  * The drawing area is backed by the pixmap [pm]. *)
 let process_click (c:drawing_area) (pm:GDraw.pixmap ref) e =
-  let brush_size = 10 in
+  let brush_size = 100 in
   let mouse_x = GdkEvent.Button.x e |> int_of_float in
   let mouse_y = GdkEvent.Button.y e |> int_of_float in
   draw_square mouse_x mouse_y brush_size c pm;
@@ -59,7 +75,7 @@ let process_click (c:drawing_area) (pm:GDraw.pixmap ref) e =
  * [c] after event [e]. If the event [e] was a mouse click, the movement of
  * the mouse is drawn on [c], which is backed by the pixmap [pm]. *)
 let process_move (c:drawing_area) (pm:GDraw.pixmap ref) e =
-  let brush_size = 10 in
+  let brush_size = 100 in
   let mouse_x = GdkEvent.Motion.x e |> int_of_float in
   let mouse_y = GdkEvent.Motion.y e |> int_of_float in
   if GdkEvent.Motion.state e |> Gdk.Convert.test_modifier `BUTTON1
@@ -118,4 +134,4 @@ let main () =
   Main.main ()
 
 (* Run the GUI *)
-let () = main ()
+let () = main () *)
