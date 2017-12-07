@@ -4,6 +4,9 @@ test:
 gui:
 	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
 
+visualise:
+	ocamlbuild -use-ocamlfind visualisation.byte && ./visualisation.byte
+
 test_model:
 	ocamlbuild -use-ocamlfind model_test.byte && ./model_test.byte
 

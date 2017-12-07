@@ -2,19 +2,25 @@ open GMain
 open GMisc
 open Images
 open Bmp
+open Visualisation
+
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
+  let img_no = ref 0 in
+  let filename = "./images/num" ^ string_of_int !img_no ^ ".bmp" in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename:"./images/num.bmp" ~typ:"bmp" !mnist_pb;
-  "./images/num.bmp"
+  GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb;
+  incr img_no;
+  filename
 
 (* [load_img filepath] loads the image at [filepath].*)
+let load_img filepath : Bmp.bmp =
   Bmp.load_bmp filepath
 
 let to_matrix (img : Bmp.bmp) =
@@ -108,9 +114,6 @@ let main () =
 
   (* output of classification *)
   let output = label ~markup:"\n<b><u>OUTPUT</u>:</b>\n" ~packing:vbox#add () in
-  let vis_window = GWindow.window ~width:400 ~height:410 ~title: "visualisation" () in 
-  vis_window#set_resizable false;
-  let vis_vbox = GPack.vbox ~packing:vis_window#add () in
 
   (* display GUI, enter event loop *)
   window#show ();

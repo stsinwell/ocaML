@@ -1,6 +1,5 @@
 open Lacaml.S
 open Layer
-open Nlmf
 open Matrix
 open Actv
 
