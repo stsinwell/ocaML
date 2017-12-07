@@ -1,6 +1,7 @@
 open GMain
 open GMisc
-open Model 
+open Graphics
+open Matrix
 
 (* [main] makes the window and adds the graphical components to it.
  * The graphical components include the drawing pane, classification
