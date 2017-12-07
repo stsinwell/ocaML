@@ -14,7 +14,7 @@ type t = {
 let new_layer (m: int) (n: int) (a1: Actv.t) = {
     a = a1;
     w = mat_random n m;
-    b = mat_random n 1
+    b = mat_const n 1 (0.1)
   }
 (*
 - l is layer we are updating
@@ -25,13 +25,13 @@ let update_w_and_b (l: t) (a: matrix) (g: matrix) =
     (*weight_hp - a matrix of same dimension 
     as w with a hyperparameter for gradient updates*)
     let weight_hp = 
-        let const = (0.001) *. float_of_int (Mat.dim1 l.w) in
+        let const = (0.01) *. float_of_int (Mat.dim1 l.w) in
         Mat.random (Mat.dim1 l.w) (Mat.dim2 l.w) ~from:(const) ~range:(0.0) in
 
     (*weight_hp - a matrix of same dimension 
     as w with a hyperparameter for gradient updates*)
     let bias_hp = 
-      let const = (0.001) *. float_of_int (Mat.dim1 l.w) in
+      let const = (0.01) *. float_of_int (Mat.dim1 l.w) in
       Mat.random (Mat.dim1 l.w) 1 ~from:(const) ~range:(0.0) in
 
     (* weight - const mult f * b^T *)

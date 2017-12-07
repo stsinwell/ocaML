@@ -55,7 +55,7 @@ let file_to_list filename =
 
 let load_weights path =
   try
-    file_to_list path
+    (List.rev (file_to_list path))
     |> List.map (fun x -> List.map (fun y -> float_of_string y) x)
     |> Mat.of_list
   with
@@ -71,8 +71,8 @@ let print m =
             (Array.init rows (fun i -> Printf.sprintf "Row %d" (i + 1)))
             ~col_labels:
             (Array.init cols (fun i -> Printf.sprintf "Col %d" (i + 1)))
-            ~vertical_context:(Some (Context.create 2))
-            ~horizontal_context:(Some (Context.create 3))
+            ~vertical_context:(Some (Context.create 784))
+            ~horizontal_context:(Some (Context.create 784))
             ~ellipsis:"*"
             ~print_right:false
             ~print_foot:false ())
