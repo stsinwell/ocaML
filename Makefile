@@ -1,6 +1,12 @@
 actv_test:
 	ocamlbuild -use-ocamlfind actv_test.byte && ./actv_test.byte
 
+loss_test:
+	ocamlbuild -use-ocamlfind loss_test.byte && ./loss_test.byte
+
+layer_test:
+	ocamlbuild -use-ocamlfind layer_test.byte && ./layer_test.byte
+
 matrix_test:
 	ocamlbuild -use-ocamlfind matrix_test.byte && ./matrix_test.byte
 
