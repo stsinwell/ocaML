@@ -10,5 +10,6 @@ type t = {
 }
 
 (* Categorical cross-entropy is a loss function, which is the difference in
- * probability distributions between two vectors. *)
+ * probability distributions between two vectors. The derivative of categorical
+ * cross-entropy is the difference vector. *)
 val cat_crossentropy : t

@@ -14,5 +14,4 @@ open Images;;
                             |> List.map (fun x -> Matrix.floats_to_str x)
                             |> Matrix.strs_to_str);
   close_out file;;
-
 #quit;;

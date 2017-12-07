@@ -28,7 +28,6 @@ let print m =
 let model= [
   (new_layer 784 64 sigmoid);
   (new_layer 64 10 sigmoid)
-
 ]
 
 let network = {
@@ -56,7 +55,7 @@ let x, y = decode train_set 408
 
 let () = print y
 
-let new_net = train network train_set 60000 1 ~id:"mnist" () 
+let new_net = train network train_set 20000 1 ~id:"mnist" ()
 
 let fst = infer (snd new_net) (save_weights "x" x)
 

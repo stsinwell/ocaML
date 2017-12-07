@@ -38,7 +38,8 @@ val full_pass : network -> matrix -> matrix -> network
 (* [train n x steps epoch ?id] samples over the inputted dataset [x] and updates
  * the network [n] iteratively in memory. Its output is the network and a list
  * of saved files that enable later loading of the network. The network iterates
- * [epoch] times, where each epoch consists of a number of [steps]. *)
+ * [epoch] times, where each epoch consists of a number of [steps]. The optional
+ * argument [?id] can be used to save the network with a specific ID tag. *)
 val train: network -> matrix -> int -> int -> ?id:string -> unit ->
   (network * ((string * string) list))
 
