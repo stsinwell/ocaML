@@ -14,7 +14,7 @@ type t = {
 let new_layer (m: int) (n: int) (a1: Actv.t) = {
     a = a1;
     w = mat_random n m;
-    b = mat_const n 1 (0.1)
+    b = mat_random n 1
   }
 
 let update_w_and_b (l: t) (a: matrix) (g: matrix) =

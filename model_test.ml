@@ -52,11 +52,11 @@ let decode dt i =
 
 let train_set = Mnist.data `Train
 
-let x, y = decode train_set 293
+let x, y = decode train_set 408
 
 let () = print y
 
-let new_net = train network train_set 20000 1 ~id:"mnist" () 
+let new_net = train network train_set 60000 1 ~id:"mnist" () 
 
 let fst = infer (snd new_net) (save_weights "x" x)
 
