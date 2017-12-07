@@ -10,6 +10,22 @@ let process_color (c : int) =
   let blue = c land 0xff in
   float (((red + green + blue) / 3) land 0xff) /. 255.0;;
 
+(* let to_matrix (img:Images.t) =
+  let matrix = ref [] in
+  (match img with
+   | Rgb24 bmp ->
+       begin for i = 0 to (bmp.Rgb24.height - 1) do
+         (for j = 0 to (bmp.Rgb24.width - 1) do
+            let {r = r; g = g; b = b} = Rgb24.get bmp j i
+            in matrix := [Graphics.rgb r g b]::(!matrix)
+          done)
+       done
+       end
+   | _ -> failwith "invalid filetype");
+  List.rev !matrix
+  |> List.map (fun el -> List.map (fun e -> process_color e) el)
+  |> List.rev *)
+
 let to_matrix (img:Images.t) =
   let matrix = ref [] in
   (match img with

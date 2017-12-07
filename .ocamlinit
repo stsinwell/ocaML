@@ -9,8 +9,9 @@
 open Lacaml.D;;
 open Images;;
   let file = open_out "./matrices/matrix_user.txt" in
-  Printf.fprintf file "%s" (Images.load "./images/num.bmp" [] |> to_matrix |>
-                            List.map (fun x -> Matrix.floats_to_str x)
+  Printf.fprintf file "%s" (Images.load "./images/num.bmp" []
+                            |> to_matrix
+                            |> List.map (fun x -> Matrix.floats_to_str x)
                             |> Matrix.strs_to_str);
   close_out file;;
 

@@ -12,4 +12,7 @@ type t = {
     f': matrix -> matrix
 }
 
+(* Sigmoid is an activation function.
+ * S(x) = e^x / (1 + e^x)
+ * S'(x) = S(x) * (1 - S(x)) *)
 val sigmoid : t

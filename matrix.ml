@@ -18,6 +18,7 @@ let mat_zeros m n =
 
 let mat_const m n c =
   Mat.random m n ~from:(c) ~range:(0.0)
+  
 let to_list m =
   Mat.to_list m
 

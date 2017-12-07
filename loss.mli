@@ -1,8 +1,14 @@
 open Lacaml.D
+open Matrix
 
+type matrix = Matrix.t
+
+(* [t] represents a loss function [f] and its derivative [f']. *)
 type t = {
-  f: Mat.t -> Mat.t -> float;
-  f': Mat.t -> Mat.t -> Mat.t;
+  f: matrix -> matrix -> float;
+  f': matrix -> matrix -> matrix;
 }
 
+(* Categorical cross-entropy is a loss function, which is the difference in
+ * probability distributions between two vectors. *)
 val cat_crossentropy : t
