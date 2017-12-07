@@ -6,7 +6,7 @@ open Graphic_image
 (* [to_matrix img] converts the input [img] to a 1x784 matrix with entries
  * between 0 and 1 to be used by the neural network. The matrix here is
  * represented as a float list. *)
-val to_matrix: Images.t -> float list list
+(* val to_matrix: Images.t -> float list list *)
 
 (* [classify] processes a click of the classify button.
  * It takes the image in the drawing pane, converts it to a matrix,

@@ -39,7 +39,6 @@ let to_matrix (img:Images.t) =
             let {r = r; g = g; b = b} = Rgb24.get bmp j i
             in matrix := [Graphics.rgb r g b]::(!matrix)
           done)
-          (* matrix := (!elt |> List.rev)::(!matrix)) *)
        done
        end
    | _ -> failwith "invalid filetype");
@@ -66,7 +65,7 @@ let draw_square x y size ?(white=true) (c:drawing_area) (pm:GDraw.pixmap ref) =
 (* [process_click c pm e] processes a click on drawing area [c] after event [e].
  * The drawing area is backed by the pixmap [pm]. *)
 let process_click (c:drawing_area) (pm:GDraw.pixmap ref) e =
-  let brush_size = 10 in
+  let brush_size = 100 in
   let mouse_x = GdkEvent.Button.x e |> int_of_float in
   let mouse_y = GdkEvent.Button.y e |> int_of_float in
   draw_square mouse_x mouse_y brush_size c pm;
@@ -76,7 +75,7 @@ let process_click (c:drawing_area) (pm:GDraw.pixmap ref) e =
  * [c] after event [e]. If the event [e] was a mouse click, the movement of
  * the mouse is drawn on [c], which is backed by the pixmap [pm]. *)
 let process_move (c:drawing_area) (pm:GDraw.pixmap ref) e =
-  let brush_size = 10 in
+  let brush_size = 100 in
   let mouse_x = GdkEvent.Motion.x e |> int_of_float in
   let mouse_y = GdkEvent.Motion.y e |> int_of_float in
   if GdkEvent.Motion.state e |> Gdk.Convert.test_modifier `BUTTON1
@@ -135,4 +134,4 @@ let main () =
   Main.main ()
 
 (* Run the GUI *)
-(* let () = main () *)
+let () = main ()
