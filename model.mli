@@ -2,14 +2,15 @@
 open Lacaml.S
 open Layer
 open Matrix
+open Loss
 
-type matrix = Mat.t
-type layer = Layer.t
+type matrix
+type layer
 (* [model] represents the entire neural network, which is a
  * list of layers. *)
-type model = layer list
-  (* {layers : layer list;
-  cost : nlmf} *)
+type model
+type network
+
 
 (* [propagate model matrix] propagates [matrix] through the neural
  * network represented by [model] and returns the activation (the
@@ -21,12 +22,15 @@ val propagate: model -> matrix -> matrix list
 (* [backpropagate model m1 m2 loss] performs the backpropagation
  * algorithm on [model], given the reference matrix [m1] and the
  * entire model's output matrix [m2]. *)
-val backpropagate: model -> matrix -> matrix -> matrix
+val backpropagate: model -> matrix -> matrix -> matrix list
 
 (* [get_category m] is the index of the max value in the probability
  * distribution given by matrix [m].
  * requires: [m] is a vector. *)
 val get_category: matrix -> int
+
+
+val full_pass: network -> matrix -> network
 
 
 val train: model -> matrix -> matrix
