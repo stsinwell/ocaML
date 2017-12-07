@@ -52,11 +52,11 @@ let decode dt i =
 
 let train_set = Mnist.data `Train
 
-let x, y = decode train_set 409
+let x, y = decode train_set 408
 
 let () = print y
 
-let new_net = train network train_set 5000 1 ~id:"mnist" ()
+let new_net = train network train_set 1000 1 ~id:"mnist" ()
 
 let d = Filename.dir_sep 
 let fst = infer (snd new_net) (save_weights ("."^d^"matrices"^d^"x") x)
