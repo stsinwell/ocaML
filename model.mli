@@ -17,7 +17,7 @@ type model = layer list
  * output from the last layer).
  * requires: the column space of [matrix] must match the row space
              of the first layer in [model] *)
-val propagate: model -> matrix -> matrix
+val propagate: model -> matrix -> matrix list
 
 (* [backpropagate model m1 m2 loss] performs the backpropagation 
  * algorithm on [model], given the reference matrix [m1] and the
