@@ -8,10 +8,10 @@ test_model:
 	ocamlbuild -use-ocamlfind model_test.byte && ./model_test.byte
 
 base:
-	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo nlmf.cmo model.cmo
+	ocamlbuild -use-ocamlfind matrix.cmo layer.cmo model.cmo
 
 compile:
-	ocamlbuild -use-ocamlfind gui.cmo layer.cmo nlmf.cmo model.cmo matrix.cmo
+	ocamlbuild -use-ocamlfind gui.cmo layer.cmo model.cmo matrix.cmo
 
 clean:
 	ocamlbuild -clean
