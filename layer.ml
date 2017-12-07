@@ -12,6 +12,6 @@ type t = {
 
 let new_layer (m: int) (n: int) (a1: Actv.t) = {
     a = a1;
-    w = Mat.random m n;
-    b = Mat.random m 1
+    w = mat_random n m;
+    b = mat_random n 1
   }

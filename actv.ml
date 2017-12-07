@@ -15,6 +15,7 @@ let sigmoid = {
              (fun x -> gemm (f x) (Mat.add_const 1.0 (Mat.neg (f x))));
 
 }
+
  
 
 

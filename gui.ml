@@ -11,22 +11,20 @@ let save_img (c:drawing_area) =
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename:"num.png" ~typ:"png" !mnist_pb;
-  "./num.png"
+  GdkPixbuf.save ~filename:"./images/num.bmp" ~typ:"bmp" !mnist_pb;
+  "./images/num.bmp"
 
 (* [load_img filepath] loads the image at [filepath].*)
   Bmp.load_bmp filepath
 
-(* [rgb_to_bw rgb] converts a RGB value to a black/white value, based on
- * weights applied to each of the individual RGB values. *)
-let rgb_to_bw (rgb : Color.rgb) =
-  (0.2989 *. (float rgb.r)) +.
-  (0.5870 *. (float rgb.g)) +.
-  (0.1140 *. (float rgb.b))
-
 let to_matrix (img : Bmp.bmp) =
-  let rgb_array = img.bmpRgbQuad in
-  Array.to_list rgb_array |> List.map (fun r -> rgb_to_bw r)
+  let rec loop b acc =
+    String.(if length b = 0 then acc
+    else let b' = sub b 1 (length b - 1) in
+         let byte = sub b 1 1 |> int_of_string in
+         loop b' (byte::acc))
+  in loop (img.bmpBytes |> Bytes.to_string) []
+     |> List.map (fun e -> float e)
 
 (* TODO: save -> load -> to_matrix -> send to backend *)
 let classify (c:drawing_area) =
@@ -119,4 +117,4 @@ let main () =
   Main.main ()
 
 (* Run the GUI *)
-(* let () = main () *)
+let () = main ()
