@@ -27,7 +27,8 @@ let print m =
 
 let model= [
   (new_layer 784 64 sigmoid);
-  (new_layer 64 10 sigmoid)
+  (new_layer 64 32 sigmoid);
+  (new_layer 32 10 sigmoid)
 ]
 
 let network = {
