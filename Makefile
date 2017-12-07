@@ -1,6 +1,9 @@
 actv_test:
 	ocamlbuild -use-ocamlfind actv_test.byte && ./actv_test.byte
 
+matrix_test:
+	ocamlbuild -use-ocamlfind matrix_test.byte && ./matrix_test.byte
+
 test_model:
 	ocamlbuild -use-ocamlfind model_test.byte && ./model_test.byte
 

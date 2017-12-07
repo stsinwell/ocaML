@@ -24,7 +24,7 @@ let sigmoid_tests = [
                       (sigmoid.f' (mat_const 1000 1 50.0)));
 ]
 
-let suite = "OcaML test suite" >:::
+let suite = "actv test suite" >:::
   sigmoid_tests
 
 let _ = run_test_tt_main suite
