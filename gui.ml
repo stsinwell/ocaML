@@ -35,16 +35,15 @@ let to_matrix (img:Images.t) =
   (match img with
    | Rgb24 bmp ->
        begin for i = 0 to (bmp.Rgb24.height - 1) do
-         (let elt = ref [] in
-          for j = 0 to (bmp.Rgb24.width - 1) do
+         (for j = 0 to (bmp.Rgb24.width - 1) do
             let {r = r; g = g; b = b} = Rgb24.get bmp j i
-            in elt := (Graphics.rgb r g b)::(!elt)
-          done;
-          matrix := (!elt |> List.rev)::(!matrix))
+            in matrix := [Graphics.rgb r g b]::(!matrix)
+          done)
+          (* matrix := (!elt |> List.rev)::(!matrix)) *)
        done
        end
    | _ -> failwith "invalid filetype");
-  List.rev (!matrix)
+  List.rev !matrix
   |> List.map (fun el -> List.map (fun e -> process_color e) el)
 
 (* TODO: save -> load -> to_matrix -> send to backend *)
