@@ -12,7 +12,7 @@ let sigmoid = {
    (*derivative of sigmoid is S(x)(1-S(x)*)
   f' =
      let f = (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x))) in
-             (fun x -> gemm (f x) (Mat.add_const 1.0 (Mat.neg (f x))));
+             (fun x -> Mat.mul (f x) (Mat.add_const 1.0 (Mat.neg (f x))));
 
 }
 

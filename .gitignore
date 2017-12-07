@@ -1,6 +1,3 @@
 *.byte
 _build/
-*.bmp
-*.jpeg
-*.png
 .DS_Store

@@ -1,6 +1,7 @@
 open GMain
 open GMisc
 open Images
+open Bmp
 
 (* [to_matrix img] converts the input [img] to a 1x784 matrix with entries
  * between 0 and 1 to be used by the neural network. The matrix here is
