@@ -8,7 +8,7 @@ let mat_const m n c =
   Mat.random m n ~from:(c) ~range:(0.0)
 
 let mat_random m n =
-  Mat.random m n ~from:(-0.25) ~range:(0.5)
+  Mat.random m n ~from:(-1.0) ~range:(2.0)
 
 let mat_ones m n =
   Mat.random m n ~from:(1.0) ~range:(0.0)

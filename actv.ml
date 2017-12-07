@@ -16,3 +16,8 @@ let sigmoid = {
   f' = let f = (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x))) in
        (fun x -> Mat.mul (f x) (Mat.add_const 1.0 (Mat.neg (f x))));
 }
+
+(* let softmax = {
+  f = (fun x -> Mat.div_const (Mat.exp x) (Mat.sum (Mat.exp x)));
+  f' = (fun x -> Mat.mul x )
+} *)

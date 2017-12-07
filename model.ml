@@ -130,6 +130,7 @@ let infer ndir xpath =
   let x = load_weights xpath in
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
+  print out;
   let out_list = List.flatten (Mat.to_list out) in
 
   let rec max_index l i max maxi =
