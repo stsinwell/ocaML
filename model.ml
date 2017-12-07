@@ -1,9 +1,10 @@
-open Lacaml.S
+open Lacaml.D
 open Layer
 open Matrix
 open Actv
 open Loss
-open Owl
+open Dsfo
+open BigarrayExt
 
 type matrix = Matrix.t
 type layer = Layer.t
@@ -14,9 +15,6 @@ type network  = {
     model : model;
     loss : Loss.t
   }
-
-let get_category m = failwith "sdfhdsfds"
-
 
 
 let propagate (m: model) (input: matrix) =
@@ -96,28 +94,33 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
             model = List.rev new_model;
             loss = n.loss
         }
+    
 
 
-        let rec load f =
-            let g = fun r -> (float_of_string (List.hd r), 
-                             (List.map float_of_string (List.tl r)))
-            in
-            List.map g (Csv.load f)
+let decode dt i =
+    let w = 784 in
+    let v = Array2.slice_right dt i in
+    let m =
+        Array1.sub v 1 w |> genarray_of_array1 in
+    let m = (reshape_2 m w 1) in  
+    
+    let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
+    let label = (reshape_2 label 10 1) in m, label
 
-    let csv_file n m t f =
-        let data = load f
-        and network = ref n
-        in
-        let g = (fun x -> let (o,i) = x 
-                        in 
-                        let o = Mat.of_list o in 
-                        let i = Mat.of_list i in
-                        network := full_pass !network i  o)
-        in
-        for i = 1 to t do
-            List.iter g data;   
-        done;
-        !network
+
+
+let train_mnist (n: network) (x: matrix) = 
+    let network = ref n in
+    for i = 1 to 1000 do
+        let x, y = decode x i in
+        network := full_pass !network x y 
+    done;
+    !network
+
+
+let get_category m i = failwith "blah"
+
+
         
         
 

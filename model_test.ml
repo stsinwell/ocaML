@@ -1,10 +1,13 @@
 open Model 
 open Layer
-open Lacaml.S
+open Lacaml.D
 open Lacaml.Io
 open Actv
 open Matrix
 open Loss
+open Dsfo
+open Bigarray
+
 
 let print m = 
   let () =
@@ -26,8 +29,8 @@ let print m =
 
 
 let model= [
-  (new_layer 5 5 sigmoid);
-  (new_layer 5 2 sigmoid)
+  (new_layer 784 64 sigmoid);
+  (new_layer 64 10 sigmoid)
 
 ]
 
@@ -37,197 +40,25 @@ let network = {
 }
 
 
-(*data and labels*)
-let x = mat_random 5 1 
-let y = mat_const 2 1 1.0
-let x1 = mat_random 5 1 
-let y1 = mat_const 2 1 0.0
-
-let fwd1 = propagate network.model x
-let new_net = full_pass network x y 
-
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-let new_net = full_pass new_net x y 
-let new_net = full_pass new_net x1 y1 
-
-let fwd1 = propagate new_net.model x
-let fwd2 = propagate new_net.model x1
+let decode dt i =
+  let w = 784 in
+  let v = Array2.slice_right dt i in
+  let m =
+      Array1.sub v 1 w |> genarray_of_array1 in
+  let m = (reshape_2 m w 1) in  
+  
+  let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
+  let label = (reshape_2 label 10 1) in m, label
 
 
+let train_set = Mnist.data `Train
 
+let x, y = decode train_set 20435
 
+let new_net = train_mnist network train_set
+
+let () = print y
+let fst = propagate new_net.model x
 
 
 let () = 
@@ -248,8 +79,8 @@ let () =
               ~print_right:false
               ~print_foot:false ())
             a; helper t in
-    helper fwd1;
-
+    helper fst;
+(* 
 let () = 
   let rec helper y = 
     match y with
@@ -268,7 +99,7 @@ let () =
               ~print_right:false
               ~print_foot:false ())
             a; helper t in
-    helper fwd2 in ();
+    helper fwd2 in (); *)
 
    
   

@@ -1,4 +1,4 @@
-open GMain
+(* open GMain
 open GMisc
 open Images
 open Graphics
@@ -14,4 +14,4 @@ val classify: drawing_area -> unit
 (* [main] makes the window and adds the graphical components to it.
  * The graphical components include the drawing pane, classification
  * text field, and buttons to classify and reset. *)
-val main: unit -> unit
+val main: unit -> unit *)

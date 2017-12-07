@@ -1,4 +1,4 @@
-open Lacaml.S
+open Lacaml.D
 open Layer
 open Matrix
 open Loss
@@ -29,10 +29,10 @@ val backpropagate: model -> matrix list -> matrix -> matrix list
 (* [get_category m] is the index of the max value in the probability
  * distribution given by matrix [m].
  * requires: [m] is a vector. *)
-val get_category: matrix -> int
+(* val get_category: matrix -> int *)
 
 
 val full_pass: network -> matrix -> matrix -> network
 
 
-val train: model -> matrix -> matrix
+val train_mnist: network -> matrix -> network

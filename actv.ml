@@ -1,5 +1,5 @@
 open Matrix
-open Lacaml.S
+open Lacaml.D
 
 type matrix = Matrix.t
 
