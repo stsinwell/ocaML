@@ -1,41 +1,24 @@
 open GMain
 open GMisc
 open Images
-open Bmp
-open Visualisation
-
-
+open Graphics
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
-  let img_no = ref 0 in
-  let filename = "./images/num" ^ string_of_int !img_no ^ ".bmp" in
+  let filename = "./images/num.bmp" in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
   drawing#get_pixbuf ~src_x:0 ~src_y:0 ~dest_x:0 ~dest_y:0 !pb;
   GdkPixbuf.scale ~dest:!mnist_pb ~scale_x:0.1 ~scale_y:0.1 !pb;
-  GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb;
-  incr img_no;
-  filename
-
-(* [load_img filepath] loads the image at [filepath].*)
-let load_img filepath : Bmp.bmp =
-  Bmp.load_bmp filepath
-
-let to_matrix (img : Bmp.bmp) =
-  let rec loop b acc =
-    String.(if length b = 0 then acc
-    else let b' = sub b 1 (length b - 1) in
-         let byte = sub b 1 1 |> int_of_string in
-         loop b' (byte::acc))
-  in loop (img.bmpBytes |> Bytes.to_string) []
-     |> List.map (fun e -> float e)
+  GdkPixbuf.save ~filename ~typ:"bmp" !mnist_pb
 
 (* TODO: save -> load -> to_matrix -> send to backend *)
 let classify (c:drawing_area) =
-  save_img c |> load_img |> to_matrix; ()
+  save_img c;
+  ignore (Sys.command "utop");
+  ()
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is

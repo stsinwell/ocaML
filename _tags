@@ -1,1 +1,1 @@
-true: package(lacaml), package(lablgtk2), package(camlimages), package(oUnit), package(Graphics)
+true: package(lacaml), package(lablgtk2), package(camlimages), package(oUnit), package(Graphics), package(str), package(csv), package(dsfo)
