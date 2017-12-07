@@ -53,14 +53,15 @@ let decode dt i =
 
 let train_set = Mnist.data `Train
 
-let x, y = decode train_set 20435
+let x, y = decode train_set 2
 
-let new_net = train_mnist network train_set
+let new_net = train network train_set 10 1
 
 let () = print y
-let fst = propagate new_net.model x
+let fst = infer new_net x
 
-
+let () = print_int fst;
+(* 
 let () = 
   let rec helper y = 
     match y with
@@ -79,7 +80,7 @@ let () =
               ~print_right:false
               ~print_foot:false ())
             a; helper t in
-    helper fst;
+    helper fst; *)
 (* 
 let () = 
   let rec helper y = 

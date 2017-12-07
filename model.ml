@@ -88,8 +88,8 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
                     update_layers na gn nl (new_layer::wl)
                 | _ -> wl in
 
-        let add_input f i = i::(List.rev (List.tl (List.rev f))) in
-        let new_model = update_layers (add_input (List.rev forward) x) g n.model [] in
+        let add_i f i = i::(List.rev (List.tl f)) in
+        let new_model = update_layers (add_i (forward) x) g n.model [] in
         {
             model = List.rev new_model;
             loss = n.loss
@@ -109,16 +109,30 @@ let decode dt i =
 
 
 
-let train_mnist (n: network) (x: matrix) = 
+let train (n: network) (x: matrix) (steps: int) (epoch: int) = 
     let network = ref n in
-    for i = 1 to 1000 do
-        let x, y = decode x i in
+    for i = 1 to epoch do
+    for j = 1 to steps do
+        let x, y = decode x j in
         network := full_pass !network x y 
+    done;
     done;
     !network
 
 
-let get_category m i = failwith "blah"
+let infer (n: network) (x: matrix) = 
+    let weight_list = propagate n.model x in
+    let out = List.hd weight_list in
+    let out_list = List.flatten (Mat.to_list out) in
+
+    let rec max_index l i max maxi =
+            match l with 
+            | [] -> maxi
+            | h::t -> if h > max then max_index t (i+1) h i else max_index t (i+1) max maxi in
+
+
+    max_index out_list 0 (-1.0) (-1) 
+    
 
 
         

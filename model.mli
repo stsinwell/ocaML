@@ -26,13 +26,14 @@ val propagate: model -> matrix -> matrix list
  * entire model's output matrix [m2]. *)
 val backpropagate: model -> matrix list -> matrix -> matrix list
 
-(* [get_category m] is the index of the max value in the probability
- * distribution given by matrix [m].
- * requires: [m] is a vector. *)
-(* val get_category: matrix -> int *)
-
 
 val full_pass: network -> matrix -> matrix -> network
 
 
-val train_mnist: network -> matrix -> network
+val train: network -> matrix -> int -> int -> network
+
+(* [get_category m] is the index of the max value in the probability
+ * distribution given by matrix [m].
+ * requires: [m] is a vector. *)
+(* val get_category: matrix -> int *)
+val infer: network -> matrix -> int
