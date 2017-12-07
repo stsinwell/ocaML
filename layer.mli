@@ -2,8 +2,6 @@ open Lacaml.S
 open Actv
 open Matrix
 
-type matrix = Mat.t
-
 type t = {
   a : Actv.t;
   w : Mat.t;

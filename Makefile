@@ -1,5 +1,5 @@
 test:
-	ocamlbuild -use-ocamlfind test_gui.byte && ./test_gui.byte
+	ocamlbuild -use-ocamlfind gui_test.byte && ./gui_test.byte
 
 gui:
 	ocamlbuild -use-ocamlfind gui.byte && ./gui.byte
