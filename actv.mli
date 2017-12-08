@@ -16,3 +16,5 @@ type t = {
  * S(x) = e^x / (1 + e^x)
  * S'(x) = S(x) * (1 - S(x)) *)
 val sigmoid : t
+
+val softplus : t

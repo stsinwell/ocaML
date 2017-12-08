@@ -20,10 +20,11 @@ let classify (s:string ref) (c:drawing_area) =
   ignore (Sys.command "utop");
   let d = Filename.dir_sep in
   let dir = "."^d^"matrices"^d in
-  let net = [(dir^"saved_net-mnist-model-0wgt.txt",
-              dir^"saved_net-mnist-model-0bias.txt");
+  let net = [
              (dir^"saved_net-mnist-model-1wgt.txt",
-              dir^"saved_net-mnist-model-1bias.txt")] in
+              dir^"saved_net-mnist-model-1bias.txt");
+              (dir^"saved_net-mnist-model-0wgt.txt",
+              dir^"saved_net-mnist-model-0bias.txt")] in
   s := infer net (dir^"matrix_user.txt") |> string_of_int
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at

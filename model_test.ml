@@ -56,7 +56,7 @@ let x, y = decode train_set 6000
 
 let () = print y
 
-let new_net = train network train_set 60000 1 ~id:"mnist" ()
+let new_net = train network train_set 60000 10 ~id:"mnist" ()
 
 let d = Filename.dir_sep 
 let fst = infer (snd new_net) (save_weights ("."^d^"matrices"^d^"x") x)
