@@ -21,7 +21,7 @@ clicking on the classify button. This also saves the image as "num.bmp" in
 the images directory.
 
 --- To run a visualization of the neural network --
-make visualisation
+make visualise
 
 --- To clean up ---
 make clean
