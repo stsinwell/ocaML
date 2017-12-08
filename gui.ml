@@ -3,11 +3,12 @@ open GMisc
 open Images
 open Graphics
 open Model
+open Train_mnist
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
 let save_img (c:drawing_area) =
-  let filename = "./images/num.bmp" in
+  let filename = "."^Filename.dir_sep^"images"^Filename.dir_sep^"num.bmp" in
   let mnist_pb = ref (GdkPixbuf.create ~width:28 ~height:28 ()) in
   let pb = ref (GdkPixbuf.create ~width:280 ~height:280 ()) in
   let drawing = c#misc#realize (); new GDraw.drawable (c#misc#window) in
@@ -18,14 +19,9 @@ let save_img (c:drawing_area) =
 let classify (s:string ref) (c:drawing_area) =
   save_img c;
   ignore (Sys.command "utop");
-  let d = Filename.dir_sep in
-  let dir = "."^d^"matrices"^d in
-  let net = [(
-              dir^"saved_net-mnist-model-0wgt.txt",
-              dir^"saved_net-mnist-model-0bias.txt");
-             (dir^"saved_net-mnist-model-1wgt.txt",
-              dir^"saved_net-mnist-model-1bias.txt")] in
-  s := infer net (dir^"matrix_user.txt") |> string_of_int
+  let dir = "."^Filename.dir_sep^"matrices"^Filename.dir_sep in
+  s := infer_from_file (snd Train_mnist.new_net) (dir^"matrix_user.txt")
+       |> string_of_int
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at
  * coordinates ([x], [y]) in canvas [c]. If [white] is true, the square is

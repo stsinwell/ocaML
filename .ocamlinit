@@ -8,8 +8,9 @@
 #use "image.ml";;
 open Lacaml.D;;
 open Images;;
-  let file = open_out "./matrices/matrix_user.txt" in
-  Printf.fprintf file "%s" (Images.load "./images/num.bmp" []
+  let d = Filename.dir_sep in
+  let file = open_out ("."^d^"matrices"^d^"matrix_user.txt") in
+  Printf.fprintf file "%s" (Images.load ("."^d^"images"^d^"num.bmp") []
                             |> to_matrix
                             |> List.map (fun x -> Matrix.floats_to_str x)
                             |> Matrix.strs_to_str);

@@ -46,9 +46,11 @@ val train: network -> matrix -> int -> int -> ?id:string -> unit ->
 (* [infer n m] is the index of the max value in the probability
  * distribution given by matrix [m].
  * requires: [m] is a vector. *)
-val infer_from_file: (string * string) list -> string -> int
-
 val infer: network -> matrix -> int
+
+(* [infer_from_file ndir xpath] loads the neural network saved at [ndir]
+ * and a matrix saved at [xpath] and calls infer based on those inputs. *)
+val infer_from_file: (string * string) list -> string -> int
 
 (* [save_m m id] saves the weights and biases of all the layers in model [m] as
  * matrix text files. It returns an association list of (weight file names,

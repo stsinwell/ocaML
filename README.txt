@@ -20,6 +20,9 @@ reset button. The drawn image can be classified by the neural network by
 clicking on the classify button. This also saves the image as "num.bmp" in
 the images directory.
 
+--- To train a neural network on the MNIST dataset ---
+make train_mnist
+
 --- To run a visualization of the neural network --
 make visualise
 

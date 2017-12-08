@@ -129,7 +129,7 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   done;
   (!network, (save_net "mnist" !network))
 
-let infer n x=
+let infer n x =
   (* let n = load_net cat_crossentropy ndir in*)
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
@@ -147,15 +147,4 @@ let infer n x=
 let infer_from_file ndir xpath =
     let n = load_net cat_crossentropy ndir in
     let x = load_weights xpath in
-    let weight_list = propagate n.model x in
-    let out = List.hd weight_list in
-    print out;
-    let out_list = List.flatten (Mat.to_list out) in
-  
-    let rec max_index l i max maxi =
-      match l with
-      | [] -> maxi
-      | h::t -> if h > max then max_index t (i+1) h i
-                else max_index t (i+1) max maxi in
-  
-    max_index out_list 0 (-1.0) (-1)
+    infer n x

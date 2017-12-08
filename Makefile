@@ -13,8 +13,8 @@ matrix_test:
 visualise:
 	ocamlbuild -cflags -w,-a -use-ocamlfind visualisation.byte && ./visualisation.byte
 
-test_model:
-	ocamlbuild -cflags -w,-a -use-ocamlfind model_test.byte && ./model_test.byte
+train_mnist:
+	ocamlbuild -cflags -w,-a -use-ocamlfind train_mnist.byte && ./train_mnist.byte
 
 gui:
 	ocamlbuild -cflags -w,-a -use-ocamlfind matrix.cmo gui.byte && ./gui.byte
@@ -23,7 +23,7 @@ base:
 	ocamlbuild -cflags -w,-a -use-ocamlfind matrix.cmo layer.cmo model.cmo
 
 compile:
-	ocamlbuild -cflags -w,-a -use-ocamlfind gui.cmo image.cmo actv.cmo loss.cmo layer.cmo model.cmo matrix.cmo visualisation.cmo
+	ocamlbuild -cflags -w,-a -use-ocamlfind gui.cmo image.cmo actv.cmo loss.cmo layer.cmo model.cmo matrix.cmo train_mnist.cmo visualisation.cmo
 
 clean:
 	ocamlbuild -clean
