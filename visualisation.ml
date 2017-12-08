@@ -2,31 +2,31 @@ open GMain
 open GMisc
 open Graphics
 open Lacaml.D
-open Model
+(* open Model *)
 
-(*[fill_color node] sets the current color according to the  
- * weight (value) of [node]*)
- let fill_color node =
+(*[fill_color neuron] sets the current color according to the  
+ * weight (value) of [neuron]*)
+ let fill_color neuron =
   let shade = 
-  if node < 0.1 
+  if neuron < 0.1 
   then 0xffffff
-  else if (node >= 0.1) && (node < 0.2) 
+  else if (neuron >= 0.1) && (neuron < 0.2) 
   then 0xe6e6e6 
-  else if (node >= 0.2) && (node < 0.3)
+  else if (neuron >= 0.2) && (neuron < 0.3)
   then 0xcccccc
-  else if (node >= 0.3) && (node < 0.4)
+  else if (neuron >= 0.3) && (neuron < 0.4)
   then 0xb3b3b3
-  else if (node >= 0.4) && (node < 0.5)
+  else if (neuron >= 0.4) && (neuron < 0.5)
   then 0x999999
-  else if (node >= 0.5) && (node < 0.6)
+  else if (neuron >= 0.5) && (neuron < 0.6)
   then 0x808080
-  else if (node >= 0.6) && (node < 0.7)
+  else if (neuron >= 0.6) && (neuron < 0.7)
   then 0x666666
-  else if (node >= 0.7) && (node < 0.8)
+  else if (neuron >= 0.7) && (neuron < 0.8)
   then 0x4d4d4d
-  else if (node >= 0.8) && (node < 0.9)
+  else if (neuron >= 0.8) && (neuron < 0.9)
   then 0x333333
-  else if (node >= 0.9) && (node < 1.0)
+  else if (neuron >= 0.9) && (neuron < 1.0)
   then 0x1a1a1a
   else 0x000000 in 
   set_color shade
@@ -58,10 +58,10 @@ let take n lst =
     | [] -> []
     | x::xs -> drop (n-1) xs
 
-(*[draw_circles node_lst spacing x_pos y_pos] draws the circles
- * for a single layer of nodes *)
-let rec draw_circles (node_lst : float list) spacing x_pos y_pos =  
-match node_lst with 
+(*[draw_circles neuron_lst spacing x_pos y_pos] draws the circles
+ * for a single layer of neurons *)
+let rec draw_circles (neuron_lst : float list) spacing x_pos y_pos =  
+match neuron_lst with 
 | [] -> draw_circle 0 0 0 
 | h :: t -> set_color 0x000000;
            draw_circle x_pos y_pos 10;
@@ -69,41 +69,41 @@ match node_lst with
            fill_circle x_pos y_pos 10;
            draw_circles t spacing x_pos (y_pos + spacing)
 
-(*[insert_layer] draws the nodes of a single layer
+(*[insert_layer] draws the neurons of a single layer
  * onto the window *)
-let insert_layer (node_lst: float list) x_pos=
-  let num_nodes = List.length node_lst in
+let insert_layer (neuron_lst: float list) x_pos=
+  let num_neurons = List.length neuron_lst in
   let offset = 50 in
-  let spacing = (size_y() - 2 * offset) / num_nodes in
-  draw_circles node_lst spacing x_pos offset
+  let spacing = (size_y() - 2 * offset) / num_neurons in
+  draw_circles neuron_lst spacing x_pos offset
 
-let get_points_helper node_lst x_pos =
- let num_nodes = List.length node_lst in 
+let get_points_helper neuron_lst x_pos =
+ let num_neurons = List.length neuron_lst in 
  let offset = 50 in 
- let spacing = (size_y() - 2 * offset) / num_nodes in
- let rec helper node_lst offset' =
-  match node_lst with
+ let spacing = (size_y() - 2 * offset) / num_neurons in
+ let rec helper neuron_lst offset' =
+  match neuron_lst with
   | [] -> [] 
   | h :: t -> (x_pos, offset') :: helper t (offset' + spacing)
   in
-  helper node_lst offset
+  helper neuron_lst offset
 
 
- let rec connect_one_node s e =
+ let rec connect_one_neuron s e =
   match s with
-  | (x,y) :: t -> List.map (fun (x', y') -> moveto x y; lineto x' y') e; connect_one_node t e;
+  | (x,y) :: t -> List.map (fun (x', y') -> moveto x y; lineto x' y') e; connect_one_neuron t e;
   | _ -> () 
 
-(* [match_points_node] draws a line from the node at position ([sx],[sy])
- * to each of the nodes in the list [end_lst]*)
+(* [match_points_neuron] draws a line from the neuron at position ([sx],[sy])
+ * to each of the neurons in the list [end_lst]*)
 let rec match_points points =
   match points with
-  | h :: m :: t -> connect_one_node h m; match_points (m :: t) 
-  | h :: t :: [] -> connect_one_node h t
+  | h :: m :: t -> connect_one_neuron h m; match_points (m :: t) 
+  | h :: t :: [] -> connect_one_neuron h t
   | _ -> ()
 
   (*[get_startendpoints layers_lst] returns a list of the 
-   * coordinates of each node for each of the n layers in 
+   * coordinates of each neuron for each of the n layers in 
    * [layers_lst]. Helper function to [connect_layers].*)
 let rec get_startendpoints layers_lst = 
   let num_layers = List.length layers_lst in
@@ -142,13 +142,12 @@ let arrange_layers (layer_lst : float list list ) =
   in
   insert_layers transformed offset
 
-let get_input =
-  propagate 
-  
+
 
 let main () =
   open_graph " 1000x500";
   set_window_title "Network Visualization";
+  set_color black#background;
   let sample = [[0.1;0.5;1.0]; [1.0;0.5;0.9]; [0.1;0.2]] in 
   connect_layers sample;
   arrange_layers sample;
@@ -160,3 +159,4 @@ let main () =
 
 (* Run the GUI *)
 let () = main ()
+
