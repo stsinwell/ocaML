@@ -26,8 +26,8 @@ let print m =
       m in ()
 
 let model= [
-  (new_layer 784 32 sigmoid);
-  (new_layer 32 32 sigmoid);
+  (new_layer 784 64 sigmoid);
+  (new_layer 64 32 sigmoid);
   (new_layer 32 10 sigmoid)
 ]
 
@@ -52,13 +52,13 @@ let decode dt i =
 
 let train_set = Mnist.data `Train
 
-let x, y = decode train_set 6000
+let x, y = decode train_set 8000
 
-let () = print y
 
-let new_net = train network train_set 60000 10 ~id:"mnist" ()
+let new_net = train network train_set 200 1 ~id:"mnist" ()
 
 let d = Filename.dir_sep 
-let fst = infer (snd new_net) (save_weights ("."^d^"matrices"^d^"x") x)
+let fst = infer (fst new_net) x
 
 let () = print_int fst
+let () = print y

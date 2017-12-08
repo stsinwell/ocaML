@@ -18,3 +18,5 @@ type t = {
 val sigmoid : t
 
 val softplus : t
+
+val softmax : t

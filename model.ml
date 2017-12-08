@@ -35,7 +35,9 @@ let backpropagate (m: model) (a:matrix list) (l: matrix) =
   let layer_update l l' c i =
     let a = (gemm l'.w c ~transa:`T) in
     let x = (l.a.f' i) in
-    Mat.mul a x in
+    let dot_prod = Mat.mul a x in
+    (* print dot_prod; *)
+    dot_prod in
 
   (* w is the weights of the model *)
   let network_update (m: model) (a: matrix list) (l:matrix) =
@@ -53,8 +55,10 @@ let backpropagate (m: model) (a:matrix list) (l: matrix) =
 
 let full_pass (n: network) (x: matrix) (y: matrix) =
   let forward = propagate n.model x in
-  let output = List.hd forward in
+  let output = List.hd (forward) in
+  print output;
   let cost = n.loss.f' output y in
+  print cost;
   let g = backpropagate n.model forward cost in
 
   let rec update_layers a g l wl =
@@ -66,8 +70,8 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
       let new_layer = update_w_and_b l a g in
       update_layers na gn nl (new_layer::wl)
     | _ -> wl in
-  let add_i f i = i::(List.rev (List.tl f)) in
-  let new_model = update_layers (add_i forward x) g n.model [] in
+  let add_i f i = i::(List.rev (List.tl (List.rev f))) in
+  let new_model = update_layers (add_i (List.rev forward) x) g n.model [] in
   {
     model = List.rev new_model;
     loss = n.loss
@@ -79,8 +83,8 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
     let m =
       Array1.sub v 1 w |> genarray_of_array1 in
       let temp = (reshape_2 m 28 28) in
-      let m = Mat.transpose_copy temp in
-      let m = genarray_of_array2 m in
+      (* let m = Mat.transpose_copy temp in
+      let m = genarray_of_array2 m in *)
     let m = (reshape_2 m 784 1) in
 
     let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
@@ -125,9 +129,8 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   done;
   (!network, (save_net "mnist" !network))
 
-let infer ndir xpath =
-  let n = load_net cat_crossentropy ndir in
-  let x = load_weights xpath in
+let infer n x=
+  (* let n = load_net cat_crossentropy ndir in*)
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
   print out;
@@ -140,3 +143,19 @@ let infer ndir xpath =
               else max_index t (i+1) max maxi in
 
   max_index out_list 0 (-1.0) (-1)
+
+let infer_from_file ndir xpath =
+    let n = load_net cat_crossentropy ndir in
+    let x = load_weights xpath in
+    let weight_list = propagate n.model x in
+    let out = List.hd weight_list in
+    print out;
+    let out_list = List.flatten (Mat.to_list out) in
+  
+    let rec max_index l i max maxi =
+      match l with
+      | [] -> maxi
+      | h::t -> if h > max then max_index t (i+1) h i
+                else max_index t (i+1) max maxi in
+  
+    max_index out_list 0 (-1.0) (-1)
