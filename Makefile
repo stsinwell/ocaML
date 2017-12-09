@@ -23,7 +23,7 @@ base:
 	ocamlbuild -cflags -w,-a -use-ocamlfind matrix.cmo layer.cmo model.cmo
 
 compile:
-	ocamlbuild -cflags -w,-a -use-ocamlfind gui.cmo image.cmo actv.cmo loss.cmo layer.cmo model.cmo matrix.cmo train_mnist.cmo
+	ocamlbuild -cflags -w,-a -use-ocamlfind gui.cmo image.cmo actv.cmo loss.cmo layer.cmo model.cmo matrix.cmo load_mnist.cmo visualisation.cmo
 
 clean:
 	ocamlbuild -clean

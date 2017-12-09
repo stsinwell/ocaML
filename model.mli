@@ -51,6 +51,11 @@ val infer: network -> matrix -> int
 
 (* [save_m m id] saves the weights and biases of all the layers in model [m] as
  * matrix text files. It returns an association list of (weight file names,
-   bias file names). The saved files have id [id]. *)
+ * bias file names). The saved files are named "id-model-" followed by a number
+ * and whether it is a weight (wgt) or bias (bias). *)
 val save_m: string -> model -> (string * string) list
 
+(* [save_net id n] saves the model in network [n] with ID [id] in the matrices
+ * directory. The files associated with the model are prefixed with
+ * "saved_net-[id]". *)
+val save_net: string -> network -> (string * string) list

@@ -86,7 +86,6 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
       let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
       let label = (reshape_2 label 10 1) in m, label
 
-
 let save_m id (m : model) =
   let n = ref 0 in
   let weights = List.map (fun l ->
