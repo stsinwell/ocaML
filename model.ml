@@ -56,7 +56,6 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
   let forward = propagate n.model x in
   let output = List.hd (forward) in
   print output;
-  print y;
   let cost = Mat.sub y output in
   let g = backpropagate n.model forward cost in
 
