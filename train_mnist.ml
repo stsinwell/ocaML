@@ -17,9 +17,10 @@ let network = {
   loss = cat_crossentropy
 }
 
-let train_set = Mnist.data `Train
-let train_set = Mnist.data `Train 
-let net = train network train_set 60000 10 ~id:"mnist" ()
+
+let train_mnist (epochs: int) = 
+  let train_set = Mnist.data `Train in 
+  train network train_set 60000 10 ~id:"mnist" ()
 
 let d = "."^Filename.dir_sep^"matrices"^Filename.dir_sep
 
