@@ -9,8 +9,7 @@ type t = {
 }
 
 let sigmoid = {
-  f = (fun x -> let ones = mat_ones (Mat.dim1 x) 1 in
-      Mat.div ones (Mat.add_const 1.0 (Mat.exp (Mat.neg x))));
+  f = (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x)));
 
   f' = let f = (fun x -> Mat.div (Mat.exp x) (Mat.add_const 1.0 (Mat.exp x))) in
        (fun x -> Mat.mul (f x) (Mat.add_const 1.0 (Mat.neg (f x))));

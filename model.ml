@@ -104,8 +104,7 @@ let save_m id (m : model) =
       save_weights bn l.b) m in
   List.combine weights biases
 
-let load_m (files : (string * string) list) =
-  let actv = Actv.sigmoid in
+let load_m (files : (string * string) list) ?(actv=Actv.sigmoid) () =
   List.map (fun (wn,bn) -> { a = actv;
                              w = load_weights wn;
                              b = load_weights bn } ) files
@@ -116,7 +115,7 @@ let save_net id n =
   save_m path n.model
 
 let load_net (l : loss) files =
-  { model = load_m files;
+  { model = load_m files ();
     loss = l }
 
 let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
@@ -130,7 +129,6 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   (!network, (save_net "mnist" !network))
 
 let infer n x =
-  (* let n = load_net cat_crossentropy ndir in*)
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
   print out;

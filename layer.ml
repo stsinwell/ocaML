@@ -21,23 +21,23 @@ let update_w_and_b (l: t) (a: matrix) (g: matrix) =
     (* weight_hp - a matrix of same dimension
      * as w with a hyperparameter for gradient update s*)
     let weight_hp =
-        let const = (0.01) /. (float_of_int (Mat.dim1 l.w)) in
+        let const = (0.2) /. (float_of_int (Mat.dim1 l.w)) in
         Mat.random (Mat.dim1 l.w) (Mat.dim2 l.w) ~from:(const) ~range:(0.0) in
 
     (* weight_hp - a matrix of same dimension
      * as w with a hyperparameter for gradient updates *)
     let bias_hp =
-      let const = (0.01) /. (float_of_int (Mat.dim1 l.b)) in
+      let const = (0.2) /. (float_of_int (Mat.dim1 l.b)) in
       Mat.random (Mat.dim1 l.w) 1 ~from:(const) ~range:(0.0) in
 
     (* weight - const mult f * b^T *)
     let new_w w a g =
-      Mat.add w (Mat.neg (Mat.mul weight_hp (gemm g a ~transb:`T))) in
+      Mat.add w (Mat.mul weight_hp (gemm g a ~transb:`T)) in
 
     (*bias = bias - const mult b *)
     let new_b b g =
       Mat.add b (Mat.neg (Mat.mul bias_hp b)) in
-      
+
       {
         a = l.a;
         w = new_w l.w a g;

@@ -2,6 +2,7 @@ open Lacaml.D
 open Layer
 open Matrix
 open Loss
+open Actv
 
 type matrix = Matrix.t
 type layer = Layer.t
@@ -59,7 +60,7 @@ val save_m: string -> model -> (string * string) list
 
 (* [load_m m] takes in an association list of (weight file names, bias file
  * names) and creates a model based off of them where each pair is a layer. *)
-val load_m: (string * string) list -> model
+val load_m: (string * string) list -> ?actv:Actv.t -> unit -> model
 
 (* [save_net id n] saves the model in network [n] to files with id [id]. *)
 val save_net: string -> network -> (string * string) list
