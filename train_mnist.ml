@@ -18,11 +18,8 @@ let network = {
 }
 
 let train_set = Mnist.data `Train
-
-
-
 let train_set = Mnist.data `Train 
-let net = train network train_set 60000 3 ~id:"mnist" ()
+let net = train network train_set 60000 10 ~id:"mnist" ()
 
 let d = "."^Filename.dir_sep^"matrices"^Filename.dir_sep
 
