@@ -35,9 +35,8 @@ let backpropagate (m: model) (a:matrix list) (l: matrix) =
   let layer_update l l' c i =
     let a = (gemm l'.w c ~transa:`T) in
     let x = (l.a.f' i) in
-    let dot_prod = Mat.mul a x in
-    (* print dot_prod; *)
-    dot_prod in
+    let mul = Mat.mul a x in
+    mul in
 
   (* w is the weights of the model *)
   let network_update (m: model) (a: matrix list) (l:matrix) =
@@ -57,8 +56,8 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
   let forward = propagate n.model x in
   let output = List.hd (forward) in
   print output;
-  let cost = n.loss.f' output y in
-  print cost;
+  print y;
+  let cost = Mat.sub y output in
   let g = backpropagate n.model forward cost in
 
   let rec update_layers a g l wl =
@@ -76,20 +75,19 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
     model = List.rev new_model;
     loss = n.loss
   }
-
   let decode dt i =
     let w = 784 in
     let v = Array2.slice_right dt i in
     let m =
       Array1.sub v 1 w |> genarray_of_array1 in
       let temp = (reshape_2 m 28 28) in
-      (* let m = Mat.transpose_copy temp in
-      let m = genarray_of_array2 m in *)
-    let m = (reshape_2 m 784 1) in
+      let m = Mat.transpose_copy temp in
+      let m = genarray_of_array2 m in
+      let m = (reshape_2 m 784 1) in
 
-    let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
-    let label = (reshape_2 label 10 1) in m, label
-
+      let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
+      let label = (reshape_2 label 10 1) in m, label
+    
 
 let save_m id (m : model) =
   let n = ref 0 in
@@ -104,19 +102,10 @@ let save_m id (m : model) =
       save_weights bn l.b) m in
   List.combine weights biases
 
-let load_m (files : (string * string) list) ?(actv=Actv.sigmoid) () =
-  List.map (fun (wn,bn) -> { a = actv;
-                             w = load_weights wn;
-                             b = load_weights bn } ) files
-
 let save_net id n =
   let d = Filename.dir_sep in
   let path = "."^d^"matrices"^d^"saved_net-"^id in
   save_m path n.model
-
-let load_net (l : loss) files =
-  { model = load_m files ();
-    loss = l }
 
 let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   let network = ref n in
@@ -128,10 +117,10 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   done;
   (!network, (save_net "mnist" !network))
 
-let infer n x =
+let infer n x=
+  (* let n = load_net cat_crossentropy ndir in*)
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
-  print out;
   let out_list = List.flatten (Mat.to_list out) in
 
   let rec max_index l i max maxi =
@@ -142,7 +131,3 @@ let infer n x =
 
   max_index out_list 0 (-1.0) (-1)
 
-let infer_from_file ndir xpath =
-    let n = load_net cat_crossentropy ndir in
-    let x = load_weights xpath in
-    infer n x

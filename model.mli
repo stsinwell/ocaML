@@ -49,22 +49,8 @@ val train: network -> matrix -> int -> int -> ?id:string -> unit ->
  * requires: [m] is a vector. *)
 val infer: network -> matrix -> int
 
-(* [infer_from_file ndir xpath] loads the neural network saved at [ndir]
- * and a matrix saved at [xpath] and calls infer based on those inputs. *)
-val infer_from_file: (string * string) list -> string -> int
-
 (* [save_m m id] saves the weights and biases of all the layers in model [m] as
  * matrix text files. It returns an association list of (weight file names,
    bias file names). The saved files have id [id]. *)
 val save_m: string -> model -> (string * string) list
 
-(* [load_m m] takes in an association list of (weight file names, bias file
- * names) and creates a model based off of them where each pair is a layer. *)
-val load_m: (string * string) list -> ?actv:Actv.t -> unit -> model
-
-(* [save_net id n] saves the model in network [n] to files with id [id]. *)
-val save_net: string -> network -> (string * string) list
-
-(* [load_net l files] is a network with a model loaded from [files] and loss
- * function [l]. ]*)
-val load_net: loss -> (string * string) list -> network
