@@ -8,6 +8,5 @@ open Loss
 open Dsfo
 open Bigarray
 
-(* [new_net] is the network after training and the list of files that are saved
- * after training the network. It can be used to later load the same network. *)
-val new_net : (network * ((string * string) list))
+(* [load_mnist] is the network after training on the MNIST dataset. *)
+val load_mnist : network

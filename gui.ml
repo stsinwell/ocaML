@@ -4,6 +4,7 @@ open Images
 open Graphics
 open Model
 open Train_mnist
+open Matrix
 
 (* [save_img c dir] saves the image drawn in drawing area [c] to the current
  * directory as "num.bmp". It returns the path to the file as a string. *)
@@ -20,7 +21,7 @@ let classify (s:string ref) (c:drawing_area) =
   save_img c;
   ignore (Sys.command "utop");
   let dir = "."^Filename.dir_sep^"matrices"^Filename.dir_sep in
-  s := infer_from_file (snd Train_mnist.new_net) (dir^"matrix_user.txt")
+  s := infer (Train_mnist.load_mnist) (load_weights (dir^"matrix_user.txt"))
        |> string_of_int
 
 (* [draw_square x y size white c pm] draws a square of size [size*size] at

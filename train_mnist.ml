@@ -8,23 +8,7 @@ open Loss
 open Dsfo
 open Bigarray
 
-(* [print m] prints the layer to the console in a readable format. *)
-let print m =
-  let () =
-    let a = m in
-    let rows, cols = (Mat.dim1 a), (Mat.dim2 a) in
-    Format.printf "@[<2>This is an indented random matrix:@\n@\n%a@]@."
-      (Lacaml.Io.pp_lfmat
-         ~row_labels:
-           (Array.init rows (fun i -> Printf.sprintf "Row %d" (i + 1)))
-         ~col_labels:
-           (Array.init cols (fun i -> Printf.sprintf "Col %d" (i + 1)))
-         ~vertical_context:(Some (Context.create 784))
-         ~horizontal_context:(Some (Context.create 784))
-         ~ellipsis:"*"
-         ~print_right:false
-         ~print_foot:false ())
-      m in ()
+
 
 (* A model with three layers. *)
 let model = [
@@ -63,10 +47,22 @@ let x, y = decode train_set 8000
 
 (* Train the network. The step and epoch parameters can be changed for varying
  * results. *)
-let new_net = train network train_set 200 1 ~id:"mnist" ()
+(* let new_net = train network train_set 200 1 ~id:"mnist" () *)
+
+let d = "."^Filename.dir_sep^"matrices"^Filename.dir_sep
+let load_mnist =
+  let layer1 = load_layer softplus
+               (d^"saved_net-mnist-model-0wgt.txt")
+               (d^"saved_net-mnist-model-0bias.txt") in
+  let layer2 = load_layer softmax
+               (d^"saved_net-mnist-model-1wgt.txt")
+               (d^"saved_net-mnist-model-1bias.txt") in
+  let model = [layer1; layer2] in
+  { model = model; loss = Loss.cat_crossentropy }
+
 
 (* Infer what digit data point [x] is *)
-let fst = infer (fst new_net) x
+(* let fst = infer (fst new_net) x *)
 
-let () = print_int fst
-let () = print y
+(* let () = print_int fst
+let () = print y *)
