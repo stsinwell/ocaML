@@ -2,7 +2,9 @@ open GMain
 open GMisc
 open Graphics
 open Lacaml.D
-(* open Model *)
+open Train_mnist
+open Model
+include Matrix
 
 (*[fill_color neuron] sets the current color according to the  
  * activation (value) of [neuron]*)
@@ -59,141 +61,75 @@ let line_color weight =
   0x80ff00 in
   set_color shade
 
-(* returns: [take_rev n xs acc] is [lst1 @ acc], where [lst] is
- *   the first [n] elements of [xs] (or just [xs] if [xs] has 
- *   fewer than [n] elements) in reverse order. Taken from 3110 lab. 
- * requires: [n >= 0] *)
- let rec take_rev n xs acc = 
-  if n = 0 then acc else match xs with
-    | [] -> acc
-    | x::xs' -> take_rev (n-1) xs' (x::acc)
-
-(* (* returns:  [take n lst] is the first [n] elements of [lst], or
- *   just [lst] if [lst] has fewer than [n] elements. Taken from
- *   3110 lab.
- * requires: [n >= 0]
- *)
-let take n lst =
-  take_rev n lst [] |> List.rev
-
-(* returns:  [drop n lst] is all but the first [n] elements of [lst],
- *   or just [[]] if [lst] has fewer than [n] elements. Takne from 
- *   3110 lab.
- * requires: [n >= 0]
- *)
- let rec drop n lst =
-  if n = 0 then lst else match lst with
-    | [] -> []
-    | x::xs -> drop (n-1) xs
-
-(*[draw_neurons neuron_lst spacing x_pos y_pos] draws the circles
- * for a single layer of neurons *)
-let rec draw_neurons (neuron_lst : float list) spacing x_pos y_pos =  
-match neuron_lst with 
-| [] -> draw_circle 0 0 0 
-| h :: t -> set_color 0x000000;
-           draw_circle x_pos y_pos 10;
-           fill_color h;
-           fill_circle x_pos y_pos 10;
-           draw_neurons t spacing x_pos (y_pos + spacing)
-
-(*[insert_layer] draws the neurons of a single layer
- * onto the window *)
-let insert_layer (neuron_lst: float list) x_pos=
-  let num_neurons = List.length neuron_lst in
-  let offset = 50 in
-  let spacing = (size_y() - 2 * offset) / num_neurons in
-  draw_neurons neuron_lst spacing x_pos offset
-
-let get_points_helper neuron_lst x_pos =
- let num_neurons = List.length neuron_lst in 
- let offset = 50 in 
- let spacing = (size_y() - 2 * offset) / num_neurons in
- let rec helper neuron_lst offset' =
-  match neuron_lst with
-  | [] -> [] 
-  | h :: t -> (x_pos, offset') :: helper t (offset' + spacing)
-  in
-  helper neuron_lst offset
-
-
- let rec connect_one_neuron s e =
-  match s with
-  | (x,y) :: t -> List.map (fun (x', y') -> moveto x y; lineto x' y') e; connect_one_neuron t e;
-  | _ -> () 
-
-(* [match_points_neuron] draws a line from the neuron at position ([sx],[sy])
- * to each of the neurons in the list [end_lst]*)
-let rec match_points points =
-  match points with
-  | h :: m :: t -> connect_one_neuron h m; match_points (m :: t) 
-  | h :: t :: [] -> connect_one_neuron h t
-  | _ -> ()
-
-  (*[get_startendpoints layers_lst] returns a list of the 
-   * coordinates of each neuron for each of the n layers in 
-   * [layers_lst]. Helper function to [connect_layers].*)
-let rec get_startendpoints layers_lst = 
-  let num_layers = List.length layers_lst in
-  let offset = 50 in 
-  let x_spacing = (size_x() - 100) / num_layers in 
-  let rec helper layers_lst offset' =
-    match layers_lst with
-    | [] -> []
-    | h :: t -> get_points_helper h offset' ::  (helper t (offset' + x_spacing))
-  in 
-  helper layers_lst offset
+let rec match_neurons start_lst x_space sy_space ey_space = 
+    match start_lst with 
+    | [] -> ()
+    | h :: t -> moveto x_space sy_space; 
+               fill_color h; 
+               fill_circle x_space (50 + sy_space) 5; 
+               line_color h; 
+               lineto ( x_space * 2 - 50) ey_space;
+               match_neurons t x_space (sy_space * 2) ey_space
+  
 
 (*[connect_layers] draws lines symbolizing
  * all of the different possible paths through
  * the neural network *)
-let connect_layers layers_lst = 
-  let startendpoints = get_startendpoints layers_lst in
-  set_color 0x000000;
-  match_points startendpoints
-*)
-let arrange_layers (mat: float list list) num_layers =
-  (*determine spacing between layer representations*)
-  let offset = 50 in
-  let x_spacing = (size_x() - 100) / num_layers in
-
-  (*determine spacing between nodes*)
-  let num_nodes =
-    match mat with
-    | [] -> 0
-    | h :: t -> List.length h
-  in 
-  let y_spacing = (size_y() - 100) / num_nodes in
-  let layer = List.hd mat in 
-  let rec draw_layer lst x y = 
-    match lst with 
+let connect_layers mat x_spacing =
+  let num_sneurons = List.length (List.hd mat) in   
+  let num_eneurons = List.length mat in 
+  let sy_spacing = (size_y() - 100) / num_sneurons in 
+  let ey_spacing = (size_y() - 100) / num_eneurons in 
+  let rec connect_layers_help mat y_space = 
+    match mat with 
     | [] -> ()
-    | h :: t -> draw_circle x y 10; draw_layer t x (y + y_spacing)
+    | h :: t -> match_neurons h x_spacing sy_spacing ey_spacing; connect_layers_help t (y_space + ey_spacing)
   in
-  draw_layer layer offset (offset + x_spacing * count)
-
-let get_lengths mat = 
-  match mat with
-  | [] -> [0]
-  | h :: t -> 
+  connect_layers_help mat 50
 
 (*[get_matrices network] gets each matrix within
  * [network] and sends it to be drawn in the GUI.*)
  let rec get_dim network =
   match network with 
   | [] -> []
-  | (h :: _) :: t -> [List.length h] :: get_dim t
+  | (h :: _) :: t -> List.length h :: get_dim t
   | [] :: t -> []
+
+let draw_neurons num_neurons x_spacing = 
+  let offset = 50 in 
+  let y_spacing = (size_y() - 100) / num_neurons in
+  for i = 1 to num_neurons do begin 
+    draw_circle x_spacing (offset + (i-1) * y_spacing) 5;
+    set_color black;
+    fill_circle x_spacing (offset + (i-1)* y_spacing) 5
+  end
+done
 
 let build_nodes network = 
   let num_layers = List.length network in 
+  let layer_lens = get_dim network in 
   
+  let offset = 50 in 
+  let x_spacing = (size_x() - 100) / num_layers in
+  let rec send_matrix network = 
+    match network with 
+    | [] -> ()
+    | h :: t -> connect_layers h x_spacing; send_matrix t
+  in
+  send_matrix network;
+
+  let rec build_layer layer_lens x_pos =
+    match layer_lens with
+    | [] -> ()
+    | h :: t -> draw_neurons h x_pos; build_layer t (x_pos + x_spacing)
+  in
+  build_layer layer_lens offset
 
 let get_input () = 
   failwith "Unimplemented"
 
 let main () =
-  open_graph " 1000x500";
+  open_graph " 1100x700";
   set_window_title "Network Visualization";
   let sample = [
                  [[0.1;(-0.5);(-1.0);0.4;0.2]; 
@@ -203,7 +139,9 @@ let main () =
                [[0.3;(-0.15);0.3];
                [0.4; 0.01; (-0.9)]]
                ]in 
-  get_matrices sample;
+  (* let mat = Matrix.load_weights "."^Filename.dir_sep^"matrices"^Filename.dir_sep^"matrix_user.txt" in 
+  build_nodes (propagate (fst Train_mnist.new_net).model mat) *)
+  build_nodes sample;
   (* connect_layers sample;
   arrange_layers sample;
    *)

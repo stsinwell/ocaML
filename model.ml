@@ -55,7 +55,6 @@ let backpropagate (m: model) (a:matrix list) (l: matrix) =
 let full_pass (n: network) (x: matrix) (y: matrix) =
   let forward = propagate n.model x in
   let output = List.hd (forward) in
-  print output;
   let cost = Mat.sub y output in
   let g = backpropagate n.model forward cost in
 
@@ -86,7 +85,7 @@ let full_pass (n: network) (x: matrix) (y: matrix) =
 
       let label = Array1.sub v (w + 1) 10 |> genarray_of_array1 in
       let label = (reshape_2 label 10 1) in m, label
-    
+
 
 let save_m id (m : model) =
   let n = ref 0 in
@@ -110,6 +109,9 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   let network = ref n in
   for i = 1 to epoch do
     for j = 1 to steps do
+      (if (j mod 1000) = 0
+       then Printf.printf "%s\n%!" ("epoch: "^(string_of_int i)
+                                    ^"; step: "^(string_of_int j)));
       let x, y = decode x j in
       network := full_pass !network x y
     done;
@@ -117,7 +119,6 @@ let train (n: network) (x: matrix) (steps: int) (epoch: int) ?(id="train") () =
   (!network, (save_net "mnist" !network))
 
 let infer n x=
-  (* let n = load_net cat_crossentropy ndir in*)
   let weight_list = propagate n.model x in
   let out = List.hd weight_list in
   let out_list = List.flatten (Mat.to_list out) in
@@ -129,4 +130,3 @@ let infer n x=
               else max_index t (i+1) max maxi in
 
   max_index out_list 0 (-1.0) (-1)
-
