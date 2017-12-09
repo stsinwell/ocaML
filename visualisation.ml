@@ -6,6 +6,7 @@ open Train_mnist
 open Model
 include Matrix
 
+
 (*[fill_color neuron] sets the current color according to the  
  * activation (value) of [neuron]*)
  let fill_color neuron =
@@ -61,15 +62,15 @@ let line_color weight =
   0x80ff00 in
   set_color shade
 
-let rec match_neurons start_lst x_space sy_space ey_space = 
+let rec match_neurons start_lst x_space init_sy_space init_ey_space sy_space ey_space = 
     match start_lst with 
     | [] -> ()
-    | h :: t -> moveto x_space sy_space; 
-               fill_color h; 
-               fill_circle x_space (50 + sy_space) 5; 
+    | h :: t -> moveto x_space init_sy_space; 
+               (* fill_color h; 
+               fill_circle x_space (init_sy_space) 5;  *)
                line_color h; 
-               lineto ( x_space * 2 - 50) ey_space;
-               match_neurons t x_space (sy_space * 2) ey_space
+               lineto ( x_space * 2 - 50) init_ey_space;
+               match_neurons t x_space (init_sy_space + sy_space) (init_ey_space + ey_space) sy_space ey_space
   
 
 (*[connect_layers] draws lines symbolizing
@@ -83,7 +84,7 @@ let connect_layers mat x_spacing =
   let rec connect_layers_help mat y_space = 
     match mat with 
     | [] -> ()
-    | h :: t -> match_neurons h x_spacing sy_spacing ey_spacing; connect_layers_help t (y_space + ey_spacing)
+    | h :: t -> match_neurons h x_spacing 50 50 sy_spacing ey_spacing; connect_layers_help t (x_spacing * 2)
   in
   connect_layers_help mat 50
 
@@ -98,7 +99,7 @@ let connect_layers mat x_spacing =
 let draw_neurons num_neurons x_spacing = 
   let offset = 50 in 
   let y_spacing = (size_y() - 100) / num_neurons in
-  for i = 1 to num_neurons do begin 
+  for i = 1 to num_neurons do begin
     draw_circle x_spacing (offset + (i-1) * y_spacing) 5;
     set_color black;
     fill_circle x_spacing (offset + (i-1)* y_spacing) 5
@@ -152,4 +153,5 @@ let main () =
 
 (* Run the GUI *)
 let () = main ()
+
 
