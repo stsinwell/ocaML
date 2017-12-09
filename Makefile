@@ -1,5 +1,5 @@
 actv_test:
-	ocamlbuild -cflags -w,-a use-ocamlfind actv_test.byte && ./actv_test.byte
+	ocamlbuild -cflags -w,-a -use-ocamlfind actv_test.byte && ./actv_test.byte
 
 loss_test:
 	ocamlbuild -cflags -w,-a -use-ocamlfind loss_test.byte && ./loss_test.byte

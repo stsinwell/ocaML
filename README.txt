@@ -23,6 +23,8 @@ the images directory.
 --- To train a neural network on the MNIST dataset ---
 make train_mnist
 
+This trains for 1 epoch with 60,000 steps.
+
 --- To run a visualization of the neural network --
 make visualise
 
